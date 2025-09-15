@@ -11,4 +11,7 @@ public interface AuthMapper {
 
     @Insert("insert into user(username,password,created_time,updated_time) values(#{username},#{password},#{createdTime},#{updatedTime})")
     public Integer register(User newUserInfo);
+
+    @Select("select * from user where username=#{username} and password=#{password}")
+    public User login(String username, String password);
 }
