@@ -6,5 +6,5 @@ import com.li.bbs.Pojo.User;
 public interface AuthController {
 
     public Result<Integer> register(User newUserInfo);
-    public Result<String> login(String username, String password);
+    public Result<String> login(User loginUser);
 }

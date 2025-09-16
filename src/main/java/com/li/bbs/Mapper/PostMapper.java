@@ -1,6 +1,6 @@
 package com.li.bbs.Mapper;
 
-import com.li.bbs.Pojo.EmpQueryParam;
+import com.li.bbs.Pojo.QueryParam;
 import com.li.bbs.Pojo.Post;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,5 +15,5 @@ public interface PostMapper {
             "values(#{title},#{subtitle},#{content},#{userId},#{boardId},0,0,#{createdTime},#{updatedTime})")
     public Integer addPost(Post newPost);
 
-    public List<Post> list(EmpQueryParam empQueryParam);
+    public List<Post> list(QueryParam queryParam);
 }

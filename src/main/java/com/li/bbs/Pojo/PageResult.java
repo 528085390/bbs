@@ -1,20 +1,16 @@
 package com.li.bbs.Pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class PageResult<T> {
     private Long total;
     private List<T> rows;
 
-    // 手动添加无参构造方法
-    public PageResult() {
-    }
-
-    // 手动添加全参构造方法
-    public PageResult(Long total, List<T> rows) {
-        this.total = total;
-        this.rows = rows;
-    }
 }
