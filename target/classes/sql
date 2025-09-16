@@ -1,0 +1,52 @@
+create table user
+(
+    id           int auto_increment
+        primary key,
+    username     varchar(50)  not null,
+    password     varchar(100) not null,
+    email        varchar(100) null,
+    avatar_url   varchar(255) null,
+    created_time datetime     null,
+    updated_time datetime     null
+);
+
+create table post
+(
+    id             int auto_increment
+        primary key,
+    title          varchar(200)  not null,
+    subtitle       varchar(500)  null,
+    content        longtext      null,
+    user_id        int           null,
+    board_id       int           null,
+    views_count    int default 0 null,
+    comments_count int default 0 null,
+    created_time   datetime      null,
+    updated_time   datetime      null,
+    constraint post_ibfk_1
+        foreign key (user_id) references user (id)
+);
+
+create table comment
+(
+    id           int auto_increment
+        primary key,
+    post_id      int      null,
+    user_id      int      null,
+    content      text     null,
+    created_time datetime null,
+    constraint comment_ibfk_1
+        foreign key (post_id) references post (id),
+    constraint comment_ibfk_2
+        foreign key (user_id) references user (id)
+);
+
+create index post_id
+    on comment (post_id);
+
+create index user_id
+    on comment (user_id);
+
+create index user_id
+    on post (user_id);
+
