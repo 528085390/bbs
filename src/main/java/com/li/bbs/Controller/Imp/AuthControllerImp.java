@@ -7,6 +7,7 @@ import com.li.bbs.Service.AuthService;
 import com.li.bbs.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,18 +25,18 @@ public class AuthControllerImp implements AuthController {
 
     @PostMapping("register")
     @Override
-    public Result<Integer> register(User newUserInfo) {
+    public Result<Integer> register(@RequestBody User newUserInfo) {
         Integer newUser = authService.register(newUserInfo);
         return Result.success(newUser);
     }
 
     @PostMapping("login")
     @Override
-    public Result<String> login(String username, String password) {
-        if (username == null || password == null){
+    public Result<String> login(@RequestBody User longinUser) {
+        if (longinUser.getUsername() == null || longinUser.getPassword() == null){
             return Result.error(Result.PARAM_ERROR,"参数错误");
         }
-        String token = authService.login(username,password);
+        String token = authService.login(longinUser.getUsername(),longinUser.getUsername());
         if (token == null) {
             return Result.error(Result.UNAUTHORIZED,"用户名或密码错误");
         }
