@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 确保namespace与Mapper接口的全限定名一致 -->
+<mapper namespace="com.li.bbs.Mapper.PostMapper">
+    <!-- 确保id与接口方法名一致 -->
+    <select id="list" resultType="com.li.bbs.Pojo.Post">
+        SELECT p.*
+        FROM post p
+        <where>
+            <if test="title != null and title != ''">
+                AND p.title LIKE CONCAT('%', #{title}, '%')
+            </if>
+            <if test="board != null">
+                AND p.boardId = #{boardId}
+            </if>
+            <if test="begin != null and end != null">
+                AND e.entry_date between #{begin} AND #{end}
+            </if>
+        </where>
+        ORDER BY e.update_time DESC
+    </select>
+</mapper>
+
+
+
