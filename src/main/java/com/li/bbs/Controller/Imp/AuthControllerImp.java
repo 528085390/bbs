@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static com.li.bbs.Pojo.Result.success;
 
 
-@RequestMapping("auth")
+@RequestMapping("/auth")
 @RestController
 public class AuthControllerImp implements AuthController {
 
@@ -23,14 +23,17 @@ public class AuthControllerImp implements AuthController {
 
 
 
-    @PostMapping("register")
+    @PostMapping("/register")
     @Override
     public Result<Integer> register(@RequestBody User newUserInfo) {
-        Integer newUser = authService.register(newUserInfo);
-        return Result.success(newUser);
+        Integer res = authService.register(newUserInfo);
+        if (res != 1){
+            return Result.error(Result.ERROR,"注册失败");
+        }
+        return Result.success();
     }
 
-    @PostMapping("login")
+    @PostMapping("/login")
     @Override
     public Result<String> login(@RequestBody User longinUser) {
         if (longinUser.getUsername() == null || longinUser.getPassword() == null){

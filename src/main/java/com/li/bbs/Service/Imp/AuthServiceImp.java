@@ -23,8 +23,8 @@ public class AuthServiceImp implements AuthService {
     public Integer register(User newUserInfo) {
         newUserInfo.setCreatedTime(LocalDateTime.now());
         newUserInfo.setUpdatedTime(LocalDateTime.now());
-        Integer newUser = authMapper.register(newUserInfo);
-        return newUser;
+        Integer res = authMapper.register(newUserInfo);
+        return res;
     }
 
     @Override

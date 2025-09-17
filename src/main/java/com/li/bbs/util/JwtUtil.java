@@ -74,7 +74,7 @@ public class JwtUtil {
     // --- 验证Token的方法 ---
 
     // 检查Token是否过期
-    private Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
