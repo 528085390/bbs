@@ -1,0 +1,49 @@
+#header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #ea4646;
+  position: sticky;
+  top: 0;
+  margin: 0 auto;
+  height: 60px;
+}
+#header .logo {
+  line-height: 60px;
+  display: flex;
+  width: 350px;
+  height: 60px;
+}
+#header .logo h1 {
+  display: flex;
+  margin-left: 10px;
+  width: 300px;
+  height: 60px;
+}
+#header .logo h1 a img {
+  width: 50px;
+  height: 50px;
+  margin-top: -5px;
+  border-radius: 50px;
+}
+#header .logo h1 p {
+  display: inline-block;
+  margin-left: 10px;
+  width: 200px;
+  height: 60px;
+  font-size: 25px;
+  color: white;
+}
+#header .logo h1 p:hover {
+  cursor: pointer;
+}
+#header .header_right {
+  width: 200px;
+  height: 60px;
+  line-height: 60px;
+  background-color: yellow;
+}
+.mainbody {
+  background-color: orange;
+  height: 2000px;
+  margin: 0 auto;
+}
