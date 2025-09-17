@@ -18,7 +18,7 @@ public class QueryParam {
 
 
     private LocalDateTime createdTime;
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+//    @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDateTime updatedTime;
 
 
