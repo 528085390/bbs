@@ -3,10 +3,9 @@ import com.li.bbs.Pojo.Comment;
 import com.li.bbs.Pojo.Result;
 import com.li.bbs.Service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +24,19 @@ public class CommentControllerImp {
         data.put("comments", comments);
         data.put("count", comments.size());
         return Result.success(data);
+    }
+
+    @PostMapping
+    public Result addcomment(@RequestBody Comment comment){
+        comment.setCreatedTime(LocalDateTime.now());
+        commentService.addcomment(comment);
+        return Result.success();
+    }
+
+    @DeleteMapping
+    public Result delete(@RequestParam(value="id",required = false) Integer id){
+        commentService.delete(id);
+        return Result.success();
     }
 
 }
