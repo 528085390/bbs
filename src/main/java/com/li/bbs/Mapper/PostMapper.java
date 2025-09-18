@@ -2,8 +2,8 @@ package com.li.bbs.Mapper;
 
 import com.li.bbs.Pojo.QueryParam;
 import com.li.bbs.Pojo.Post;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -16,4 +16,16 @@ public interface PostMapper {
     public Integer addPost(Post newPost);
 
     public List<Post> list(QueryParam queryParam);
+
+    @Select("select * from post where id=#{id}")
+    public Post findById(Integer id);
+
+    @Update("UPDATE post SET views_count = views_count + 1 WHERE id = #{id}")
+    public Integer incrementViewsCount(Integer id);
+
+    @Update("UPDATE post SET title = #{title}, subtitle = #{subtitle}, content  = #{content}, updated_time = #{updatedTime} WHERE id = #{id}")
+    public Integer update(Post post);
+
+    @Delete("delete from post where id=#{id}")
+    public Integer delete(Integer id);
 }

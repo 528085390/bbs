@@ -26,13 +26,12 @@ public class PostServiceImp implements PostService {
     private PostMapper postMapper;
 
     @Override
-    public Integer addPost(Post newPost) {
+    public Integer add(Post newPost) {
         newPost.setCreatedTime(LocalDateTime.now());
         newPost.setUpdatedTime(LocalDateTime.now());
         newPost.setViewsCount(0);
         newPost.setCommentsCount(0);
-        Integer res = postMapper.addPost(newPost);
-        return res;
+        return postMapper.addPost(newPost);
     }
 
     @Override
@@ -41,6 +40,24 @@ public class PostServiceImp implements PostService {
         List<Post> posts = postMapper.list(queryParam);
         return new PageResult<>(p.getTotal(), posts);
 
+    }
+
+    @Override
+    public Post findById(Integer id) {
+        postMapper.incrementViewsCount(id);
+        return postMapper.findById(id);
+    }
+
+    @Override
+    public Post update(Post post,Integer id) {
+        post.setUpdatedTime(LocalDateTime.now());
+        postMapper.update(post);
+        return postMapper.findById(id);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        postMapper.delete(id);
     }
 
 
