@@ -12,14 +12,11 @@
             <if test="title != null and title != ''">
                 AND p.title LIKE CONCAT('%', #{title}, '%')
             </if>
-            <if test="board != null">
-                AND p.boardId = #{boardId}
-            </if>
-            <if test="begin != null and end != null">
-                AND e.entry_date between #{begin} AND #{end}
+            <if test="boardId != null">
+                AND p.board_id = #{boardId}
             </if>
         </where>
-        ORDER BY e.update_time DESC
+        ORDER BY p.created_time DESC
     </select>
 </mapper>
 
