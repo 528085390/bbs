@@ -5,7 +5,7 @@ import com.li.bbs.Pojo.Comment;
 import java.util.List;
 
 public interface CommentService {
-    List<Comment> findAll();
+    List<Comment> findByPostId(Integer postId, Integer page, Integer pageSize);
 
     void addcomment(Comment comment);
 
