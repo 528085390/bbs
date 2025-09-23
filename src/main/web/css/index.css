@@ -1,16 +1,19 @@
 #header {
   display: flex;
   justify-content: space-between;
-  background-color: #ea4646;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
   margin: 0 auto;
+  width: 100%;
   height: 60px;
+  z-index: 100;
 }
 #header .logo {
   line-height: 60px;
   display: flex;
-  width: 350px;
+  width: 30%;
+  max-width: 350px;
   height: 60px;
 }
 #header .logo h1 {
@@ -31,19 +34,135 @@
   width: 200px;
   height: 60px;
   font-size: 25px;
-  color: white;
+  color: #ea4646;
 }
 #header .logo h1 p:hover {
   cursor: pointer;
 }
 #header .header_right {
-  width: 200px;
+  display: flex;
+  max-width: 200px;
+  width: 20%;
   height: 60px;
   line-height: 60px;
-  background-color: yellow;
+  padding-left: 20px;
 }
-.mainbody {
+#header .header_right a {
+  display: inline-block;
+  width: 40px;
+  height: 60px;
+  line-height: 60px;
+  color: #ea4646;
+}
+#header .header_right a:hover {
+  animation: up 0.3s;
+}
+@keyframes up {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.content {
+  display: flex;
+  position: relative;
+  height: 100%;
+}
+.content .left_nav {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 300px;
+  max-width: 30%;
+  height: calc(100vh - 60px);
+  padding-top: 20px;
+  padding-left: 20px;
+  background-color: #ea4646;
+  font-size: 20px;
+  overflow-y: auto;
+}
+.content .left_nav h2 {
+  height: 20px;
+  line-height: 20px;
+  margin-bottom: 10px;
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+  color: white;
+}
+.content .left_nav h4 {
+  margin-bottom: 20px;
+  color: white;
+}
+.content .left_nav p {
+  color: white;
+}
+.content .left_nav ul {
+  margin: 20px 0;
+  padding-right: 10px;
+}
+.content .left_nav ul li {
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  margin: 10px 0;
+  border-radius: 50px;
+  transition: all 1s;
+  cursor: pointer;
+}
+.content .left_nav ul li:hover {
+  background-color: #ffffff3c;
+}
+.content .left_nav ul li:hover a {
+  transform: translateX(60px);
+  font-size: 30px;
+}
+.content .left_nav ul li a {
+  width: 86%;
+  height: 40px;
+  padding-left: 10px;
+  color: white;
+  display: inline-block;
+  transition: all 1s;
+}
+.content .middle_content {
+  display: flex;
+  margin: 0 300px;
+  padding: 20px;
   background-color: orange;
-  height: 2000px;
-  margin: 0 auto;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  border-left: 5px solid red;
+  border-right: 5px solid rgba(255, 255, 255, 0.491);
+}
+.content .middle_content #search {
+  width: 50%;
+  height: 40px;
+  margin: 20px auto;
+  border-radius: 50px;
+}
+.content .right_topic_area {
+  position: fixed;
+  right: 0;
+  width: 300px;
+  max-width: 30%;
+  padding-left: 10px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+.content .right_topic_area h2 {
+  width: 100%;
+  margin-top: 5px;
+  font-size: 30px;
+  color: #ea4646;
+  border-bottom: 2px solid #ea4646;
+}
+.content .right_topic_area ul li {
+  font-size: 20px;
+  margin: 30px 0;
 }
