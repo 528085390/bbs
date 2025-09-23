@@ -5,11 +5,19 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  height: 100%;
+  margin: 0;
+  /* min-width: 1200px; */
+}
+
 /* 设置网页统一的字体大小、行高、字体系列相关属性 */
 body {
   font: 16px/1.5 "Microsoft Yahei",
-    "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif;
+  "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif;
   color: #19191c;
+  padding-top: 60px;
 }
 
 /* 去除列表默认样式 */
@@ -51,4 +59,9 @@ h4,
 h5,
 h6 {
   font-weight: 700;
+}
+
+
+::-webkit-scrollbar {
+  display: none;
 }
