@@ -7,7 +7,7 @@ import com.li.bbs.Pojo.Post;
 
 public interface PostService {
 
-    public Integer add(Post newPost);
+    public Post add(Post newPost);
 
      public PageResult<Post> page(QueryParam queryParam);
 

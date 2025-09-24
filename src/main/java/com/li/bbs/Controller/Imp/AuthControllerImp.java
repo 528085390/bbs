@@ -39,7 +39,7 @@ public class AuthControllerImp implements AuthController {
         if (longinUser.getUsername() == null || longinUser.getPassword() == null){
             return Result.error(Result.PARAM_ERROR,"参数错误");
         }
-        String token = authService.login(longinUser.getUsername(),longinUser.getUsername());
+        String token = authService.login(longinUser.getUsername(),longinUser.getPassword());
         if (token == null) {
             return Result.error(Result.UNAUTHORIZED,"用户名或密码错误");
         }

@@ -9,7 +9,6 @@ import com.li.bbs.Pojo.PageResult;
 import com.li.bbs.Pojo.Post;
 import com.li.bbs.Service.PostService;
 import com.li.bbs.util.JwtUtil;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +25,15 @@ public class PostServiceImp implements PostService {
     private PostMapper postMapper;
 
     @Override
-    public Integer add(Post newPost) {
+    public Post add(Post newPost) {
         newPost.setCreatedTime(LocalDateTime.now());
         newPost.setUpdatedTime(LocalDateTime.now());
         newPost.setViewsCount(0);
         newPost.setCommentsCount(0);
-        return postMapper.addPost(newPost);
+        if(postMapper.addPost(newPost) != 1){
+            return null;
+        }
+        return newPost;
     }
 
     @Override

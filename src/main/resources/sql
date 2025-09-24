@@ -50,3 +50,17 @@ create index user_id
 create index user_id
     on post (user_id);
 
+
+    CREATE TABLE `board` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL COMMENT '板块名称',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='论坛板块表';
+
+
+INSERT INTO `board` VALUES
+(('1'),('校园生活')),
+(('2'),('校内事务')),
+(('3'),('学术探讨'));
+
+

@@ -16,9 +16,9 @@ public class PostControllerImp implements PostController {
 
     @PostMapping
     @Override
-    public Result<Integer> add(@RequestBody Post newPost, String token) {
-        Integer res = postService.add(newPost);
-        if (res != 1){
+    public Result<Post> add(@RequestBody Post newPost, String token) {
+        Post res = postService.add(newPost);
+        if (res == null){
             return Result.error(500,"添加帖子失败");
         }
         return Result.success(res);
