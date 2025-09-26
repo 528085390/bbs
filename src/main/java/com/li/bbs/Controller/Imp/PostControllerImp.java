@@ -3,6 +3,7 @@ package com.li.bbs.Controller.Imp;
 import com.li.bbs.Controller.PostController;
 import com.li.bbs.Pojo.*;
 import com.li.bbs.Service.PostService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
