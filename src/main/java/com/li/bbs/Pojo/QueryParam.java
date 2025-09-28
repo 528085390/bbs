@@ -13,7 +13,7 @@ public class QueryParam {
 
     private String title;
     private Integer userId;
-
+    private Integer postId;
     private Integer boardId;
 
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")

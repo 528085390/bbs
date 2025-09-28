@@ -2,20 +2,18 @@ package com.li.bbs.Service;
 
 import com.li.bbs.Pojo.PageResult;
 import com.li.bbs.Pojo.Post;
-import com.li.bbs.Pojo.User;
-
-import javax.swing.plaf.PanelUI;
-import java.security.PublicKey;
+import com.li.bbs.Pojo.QueryParam;
+import com.li.bbs.Pojo.UserResponse;
 
 public interface UserService {
 
-    public User getInfo(Integer userId);
+    public UserResponse getInfo(String token);
 
-    public PageResult<Post> getFavourites(Integer userId);
+    public PageResult<Post> getFavourites(String token, QueryParam queryParam);
 
-    public Post addFavourite(Integer userId,Integer postId);
+    public void addFavourite(String token, Integer postId);
 
-    public Post removeFavourite(Integer userId,Integer postId);
+    public void removeFavourite(String token, Integer postId);
 
 
 }

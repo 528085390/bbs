@@ -1,12 +1,17 @@
 package com.li.bbs.Controller;
 
-import com.li.bbs.Pojo.Result;
-import com.li.bbs.Pojo.User;
+import com.li.bbs.Pojo.*;
 
 
 public interface UserController {
 
-//    Result<User> findById(Integer id);
+    Result<UserResponse> getInfo(String token);
+
+    Result<PageResult<Post>> getFavourites(String token, QueryParam queryParam);
+
+    Result addFavourite(String token, Integer postId);
+
+    Result removeFavourite(String token, Integer postId);
 
 
 }

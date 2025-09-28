@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 确保namespace与Mapper接口的全限定名一致 -->
+<mapper namespace="com.li.bbs.Mapper.UserMapper">
+    <!-- 确保id与接口方法名一致 -->
+    <select id="findAllFavouritePostId" resultType="java.lang.Integer">
+        SELECT f.post_id
+        FROM favourite f
+        WHERE f.user_id = #{userId}
+    </select>
+
+
+
+</mapper>
+
+
+
