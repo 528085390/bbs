@@ -1,9 +1,6 @@
 package com.li.bbs.Service;
 
-import com.li.bbs.Pojo.PageResult;
-import com.li.bbs.Pojo.Post;
-import com.li.bbs.Pojo.QueryParam;
-import com.li.bbs.Pojo.UserResponse;
+import com.li.bbs.Pojo.*;
 
 public interface UserService {
 
@@ -14,6 +11,7 @@ public interface UserService {
     public void addFavourite(String token, Integer postId);
 
     public void removeFavourite(String token, Integer postId);
+
 
 
 }

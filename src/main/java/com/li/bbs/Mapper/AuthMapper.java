@@ -5,13 +5,21 @@ import com.li.bbs.Pojo.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import java.time.LocalDateTime;
 
 @Mapper
 public interface AuthMapper {
 
     @Insert("insert into user(username,password,created_time,updated_time) values(#{username},#{password},#{createdTime},#{updatedTime})")
-    public Integer register(User newUserInfo);
+    public void addUser(User newUserInfo);
 
-    @Select("select * from user where username=#{username} and password=#{password}")
-    public User login(String username, String password);
+    @Select("select * from user where username=#{username}")
+    public User findByUsername(String username);
+
+    void updateUser(User user);
+
+    @Update("update user set updated_time=#{updatedTime} where id=#{userId}")
+    void updateTime(LocalDateTime updatedTime, Integer userId);
 }

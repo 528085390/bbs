@@ -2,6 +2,7 @@ package com.li.bbs.Exception;
 
 import com.li.bbs.Pojo.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -54,5 +55,14 @@ public class GlobalExceptionHandler {
     public Result handleRuntimeException(RuntimeException e) {
         log.error("运行时异常", e);
         return Result.error(500, "操作失败: " + e.getMessage());
+    }
+
+     @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Result<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        StringBuilder errorMsg = new StringBuilder();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            errorMsg.append(error.getDefaultMessage()).append("; ");
+        });
+        return Result.error(Result.PARAM_ERROR, errorMsg.toString());
     }
 }

@@ -1,8 +1,15 @@
 package com.li.bbs.Service;
 
 import com.li.bbs.Pojo.User;
+import com.li.bbs.Pojo.UserResponse;
+
+import java.time.LocalDateTime;
 
 public interface AuthService {
-    public Integer register (User newUser);
+    public void register (User newUser);
     public String login (String username, String password);
+    UserResponse updateUser(User user, String token);
+
+    void updateTime(LocalDateTime updatedTime, Integer userId);
+
 }

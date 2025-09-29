@@ -3,8 +3,10 @@ package com.li.bbs.Controller.Imp;
 import com.li.bbs.Controller.AuthController;
 import com.li.bbs.Pojo.Result;
 import com.li.bbs.Pojo.User;
+import com.li.bbs.Pojo.UserResponse;
 import com.li.bbs.Service.AuthService;
 import com.li.bbs.util.JwtUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,27 +24,22 @@ public class AuthControllerImp implements AuthController {
     private AuthService authService;
 
 
-
     @PostMapping("/register")
     @Override
-    public Result<Integer> register(@RequestBody User newUserInfo) {
-        Integer res = authService.register(newUserInfo);
-        if (res != 1){
-            return Result.error(Result.ERROR,"注册失败");
-        }
+    public Result register(@Valid @RequestBody User newUserInfo) {
+        authService.register(newUserInfo);
         return Result.success();
     }
 
     @PostMapping("/login")
     @Override
-    public Result<String> login(@RequestBody User longinUser) {
-        if (longinUser.getUsername() == null || longinUser.getPassword() == null){
-            return Result.error(Result.PARAM_ERROR,"参数错误");
-        }
+    public Result<String> login(@Valid @RequestBody User longinUser) {
         String token = authService.login(longinUser.getUsername(),longinUser.getPassword());
-        if (token == null) {
-            return Result.error(Result.UNAUTHORIZED,"用户名或密码错误");
-        }
         return Result.success(token);
+    }
+
+    @Override
+    public Result<UserResponse> updateUser(@Valid @RequestBody User user, String token) {
+        authService.updateUser(user, token)
     }
 }
