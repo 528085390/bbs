@@ -5,6 +5,7 @@
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/cfa65be5-6fae-42e2-9078-1aaaf139546f/console_1.sql" value="cfa65be5-6fae-42e2-9078-1aaaf139546f" />
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/cfa65be5-6fae-42e2-9078-1aaaf139546f/console_2.sql" value="cfa65be5-6fae-42e2-9078-1aaaf139546f" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/li/bbs/Mapper/AuthMapper.java" value="cfa65be5-6fae-42e2-9078-1aaaf139546f" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/li/bbs/Mapper/CommentMapper.java" value="cfa65be5-6fae-42e2-9078-1aaaf139546f" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/li/bbs/Mapper/UserMapper.java" value="cfa65be5-6fae-42e2-9078-1aaaf139546f" />
     <file url="file://$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" value="cfa65be5-6fae-42e2-9078-1aaaf139546f" />
   </component>

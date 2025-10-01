@@ -10,6 +10,7 @@ import com.li.bbs.Pojo.UserResponse;
 import com.li.bbs.Service.AuthService;
 import com.li.bbs.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,7 +49,7 @@ public class AuthServiceImp implements AuthService {
             throw new NoResourceFoundException("用户不存在");
         }
         if (!new BCryptPasswordEncoder().matches(LoginUser.getPassword(), user.getPassword())){
-            throw new RuntimeException("用户名或密码错误");
+            throw new BadCredentialsException("用户名或密码错误");
         }
         updateTime(user.getId());
         return jwtUtil.generateToken(user.getUsername(), user.getId());
