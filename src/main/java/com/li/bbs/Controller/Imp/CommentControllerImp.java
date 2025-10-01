@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -21,22 +22,13 @@ import java.util.Map;
 public class CommentControllerImp implements CommentController {
     @Autowired
     private CommentService commentService;
-    /*@GetMapping()
-    public Result getcomment(@RequestParam(value="post_id",required = false)Integer post_id){
 
-        List<Comment> comments = commentService.findByPostId(post_id);
-        // 将数组包装成对象
-        Map<String, Object> data = new HashMap<>();
-        data.put("comments", comments);
-        data.put("count", comments.size());
-        return Result.success(data);
-    }*/
 
     @PostMapping("{postId}")
     @Override
-    public Result addComment(@PathVariable Integer postId, @Valid @RequestBody Comment comment,@RequestHeader String token) {
+    public Result addComment(@PathVariable Integer postId, @Valid @RequestBody Comment comment,@RequestHeader String token) throws SQLException {
         commentService.addComment(postId, comment, token);
-        return Result.success();
+        return Result.success(Result.CREATED);
     }
 
     @GetMapping("{postId}")
@@ -49,6 +41,6 @@ public class CommentControllerImp implements CommentController {
     @DeleteMapping
     public Result delete(@RequestParam(value = "id", required = false) Integer id) {
         commentService.delete(id);
-        return Result.success();
+        return Result.success(Result.NO_CONTENT);
     }
 }

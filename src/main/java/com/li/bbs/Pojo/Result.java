@@ -15,7 +15,7 @@ public class Result<T> {
     public static final Integer SUCCESS = 200;
     /** 创建成功响应码 */
     public static final Integer CREATED = 201;
-    /** 删除成功响应码 */
+    /** 操作成功响应码 */
     public static final Integer NO_CONTENT = 204;
     /** 参数错误响应码 */
     public static final Integer PARAM_ERROR = 400;
@@ -27,6 +27,8 @@ public class Result<T> {
     public static final Integer NOT_FOUND = 404;
     /** 服务器错误响应码 */
     public static final Integer ERROR = 500;
+    /**资源重复响应码 */
+    public static final Integer RESOURCE_DUPLICATE = 409;
 
 
 

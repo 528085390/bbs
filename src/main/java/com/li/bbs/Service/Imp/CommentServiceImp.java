@@ -11,6 +11,7 @@ import com.li.bbs.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,12 +25,6 @@ public class CommentServiceImp implements CommentService {
     private JwtUtil jwtUtil;
 
 
- /*   public List<Comment> findByPostId(Integer postId) {
-        return commentMapper.findByPostId(postId);
-    }
-*/
-
-
     @Override
     public PageResult<Comment> findByPostId(Integer postId, QueryParam queryParam) {
         Page<Comment> p = PageHelper.startPage(queryParam.getPage(), queryParam.getPageSize());
@@ -38,12 +33,15 @@ public class CommentServiceImp implements CommentService {
     }
 
     @Override
-    public void addComment(Integer postId, Comment comment, String token) {
+    public void addComment(Integer postId, Comment comment, String token) throws SQLException {
         Integer userId = jwtUtil.extractUserId(token);
         comment.setUserId(userId);
         comment.setPostId(postId);
         comment.setCreatedTime(LocalDateTime.now());
-        commentMapper.addComment(comment);
+        Integer res = commentMapper.addComment(comment);
+        if (res != 1){
+            throw new SQLException("添加失败");
+        }
     }
 
     @Override

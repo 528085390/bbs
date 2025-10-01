@@ -1,6 +1,7 @@
 package com.li.bbs.Controller.Imp;
 
 import com.li.bbs.Controller.AuthController;
+import com.li.bbs.Pojo.LoginRequest;
 import com.li.bbs.Pojo.Result;
 import com.li.bbs.Pojo.User;
 import com.li.bbs.Pojo.UserResponse;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.li.bbs.Pojo.Result.CREATED;
 import static com.li.bbs.Pojo.Result.success;
 
 
@@ -28,13 +30,13 @@ public class AuthControllerImp implements AuthController {
     @Override
     public Result register(@Valid @RequestBody User newUserInfo) {
         authService.register(newUserInfo);
-        return Result.success();
+        return Result.success(CREATED);
     }
 
     @PostMapping("/login")
     @Override
-    public Result<String> login(@RequestBody User longinUser) {
-        String token = authService.login(longinUser.getUsername(),longinUser.getPassword());
+    public Result<String> login(@RequestBody LoginRequest user) {
+        String token = authService.login(user);
         return Result.success(token);
     }
 

@@ -36,14 +36,14 @@ public class UserControllerImp implements UserController {
     @Override
     public Result addFavourite(@RequestHeader String token, Integer postId) {
         userService.addFavourite(token, postId);
-        return Result.success();
+        return Result.success(Result.CREATED);
     }
 
     @DeleteMapping("/favourite")
     @Override
     public Result removeFavourite(@RequestHeader String token, Integer postId) {
         userService.removeFavourite(token, postId);
-        return Result.success();
+        return Result.success(Result.NO_CONTENT);
     }
 
     @GetMapping("/posts")
@@ -59,7 +59,7 @@ public class UserControllerImp implements UserController {
     @Override
     public Result updateUserInfo(@RequestHeader String token,@RequestBody User user) {
         userService.updateUserInfo(token, user);
-        return Result.success();
+        return Result.success(Result.NO_CONTENT);
     }
 
     @PostMapping("/updateAvatar")

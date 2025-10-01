@@ -20,7 +20,7 @@ public class PostControllerImp implements PostController {
     @Override
     public Result add(@Valid @RequestBody Post newPost, @RequestHeader String token) {
         postService.add(newPost,token);
-        return Result.success();
+        return Result.success(Result.CREATED);
     }
 
 
@@ -40,16 +40,16 @@ public class PostControllerImp implements PostController {
 
     @PutMapping("/{id}")
     @Override
-    public Result<Post> update(@RequestBody Post post, @PathVariable Integer id) {
-        Post update = postService.update(post, id);
-        return Result.success(update);
+    public Result update(@RequestBody Post post, @PathVariable Integer id,@RequestHeader String token) {
+        postService.update(post, id, token);
+        return Result.success(Result.NO_CONTENT);
     }
 
     @DeleteMapping("/{id}")
     @Override
     public Result delete(@PathVariable Integer id,@RequestHeader String token) {
         postService.delete(id, token);
-        return Result.success();
+        return Result.success(Result.NO_CONTENT);
     }
 
 

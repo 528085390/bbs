@@ -13,7 +13,7 @@ public interface PostService {
 
      public Post findById(Integer id);
 
-     public Post update(Post post, Integer Id) ;
+     public Post update(Post post, Integer Id, String token) ;
 
      public void delete(Integer id, String token);
 

@@ -19,10 +19,10 @@ public interface UserMapper {
 
 
     @Insert("insert into favourite(user_id,post_id,created_time) values(#{userId},#{postId},#{createdTime})")
-    void addFavourite(Integer userId, Integer postId, LocalDateTime createdTime);
+    Integer addFavourite(Integer userId, Integer postId, LocalDateTime createdTime);
 
     @Delete("delete from favourite where user_id = #{userId} and post_id = #{postId}")
-    void removeFavourite(Integer userId, Integer postId);
+    Integer removeFavourite(Integer userId, Integer postId);
 
     @Select("select p.* " +
             "FROM post p " +
@@ -36,8 +36,8 @@ public interface UserMapper {
     @Select("select * from post where user_id = #{userId}")
     List<Post> findPostsByUserId(Integer userId);
 
-    void updateUserInfo(Integer userId,User user);
+    Integer updateUserInfo(Integer userId,User user);
 
     @Update("update user set avatar_url = #{avatarUrl} where id = #{userId}")
-    void updateUserAvatar(Integer userId, String avatarUrl);
+    Integer updateUserAvatar(Integer userId, String avatarUrl);
 }

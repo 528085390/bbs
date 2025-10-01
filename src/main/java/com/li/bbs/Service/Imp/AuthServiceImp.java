@@ -1,7 +1,10 @@
 package com.li.bbs.Service.Imp;
 
+import com.li.bbs.Exception.NoResourceFoundException;
+import com.li.bbs.Exception.ResourceDuplicateException;
 import com.li.bbs.Mapper.AuthMapper;
 import com.li.bbs.Mapper.UserMapper;
+import com.li.bbs.Pojo.LoginRequest;
 import com.li.bbs.Pojo.User;
 import com.li.bbs.Pojo.UserResponse;
 import com.li.bbs.Service.AuthService;
@@ -24,10 +27,11 @@ public class AuthServiceImp implements AuthService {
     @Autowired
     private AuthMapper authMapper;
 
+    @Transactional
     @Override
     public void register(User newUserInfo) {
         if (authMapper.findByUsername(newUserInfo.getUsername()) != null){
-            throw new RuntimeException("用户名已存在");
+            throw new ResourceDuplicateException("用户名已存在");
         }
         String encodedPassword = new BCryptPasswordEncoder().encode(newUserInfo.getPassword());
         newUserInfo.setPassword(encodedPassword);
@@ -36,14 +40,18 @@ public class AuthServiceImp implements AuthService {
         authMapper.addUser(newUserInfo);
     }
 
-    @Transactional()
+    @Transactional
     @Override
-    public String login(String username, String password) {
-        User user = authMapper.findByUsername(username);
-        if (new BCryptPasswordEncoder().matches(password, user.getPassword())) {
-            return jwtUtil.generateToken(username, user.getId());
+    public String login(LoginRequest LoginUser) {
+        User user = authMapper.findByUsername(LoginUser.getUsername());
+        if (user == null){
+            throw new NoResourceFoundException("用户不存在");
         }
-        throw new RuntimeException("用户名或密码错误");
+        if (!new BCryptPasswordEncoder().matches(LoginUser.getPassword(), user.getPassword())){
+            throw new RuntimeException("用户名或密码错误");
+        }
+        updateTime(user.getId());
+        return jwtUtil.generateToken(user.getUsername(), user.getId());
     }
 
 

@@ -15,7 +15,7 @@ public interface CommentMapper {
     List<Comment> findByPostId(Integer postId);
 
     @Insert("insert into comment(post_id,user_id,content,created_time) values(#{postId},#{userId},#{content},#{createdTime})")
-    void addComment(Comment comment);
+    Integer addComment(Comment comment);
 
     @Delete("delete from comment where id=#{id}")
     void delete(Integer id);

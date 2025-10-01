@@ -3,6 +3,7 @@ package com.li.bbs.Service.Imp;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.li.bbs.Exception.NoResourceFoundException;
 import com.li.bbs.Mapper.PostMapper;
 import com.li.bbs.Pojo.QueryParam;
 import com.li.bbs.Pojo.PageResult;
@@ -10,6 +11,7 @@ import com.li.bbs.Pojo.Post;
 import com.li.bbs.Service.PostService;
 import com.li.bbs.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,12 +50,20 @@ public class PostServiceImp implements PostService {
     @Transactional
     @Override
     public Post findById(Integer id) {
+        Post post = postMapper.findById(id);
+        if (post == null){
+            throw new NoResourceFoundException("没有此帖子");
+        }
         postMapper.incrementViewsCount(id);
-        return postMapper.findById(id);
+        return post;
     }
 
     @Override
-    public Post update(Post post,Integer id) {
+    public Post update(Post post,Integer id,String token) {
+        Integer userId = jwtUtil.extractUserId(token);
+        if (!postMapper.findById(id).getUserId().equals(userId)) {
+            throw new BadCredentialsException("没有权限");
+        }
         post.setUpdatedTime(LocalDateTime.now());
         postMapper.update(post);
         return postMapper.findById(id);
@@ -66,7 +76,10 @@ public class PostServiceImp implements PostService {
         if (!postMapper.findById(id).getUserId().equals(userId)) {
             throw new RuntimeException("没有权限");
         }
-        postMapper.delete(id);
+        Integer res = postMapper.delete(id);
+        if (res != 1) {
+            throw new RuntimeException("删除失败");
+        }
     }
 
 

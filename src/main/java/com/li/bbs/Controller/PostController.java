@@ -13,7 +13,7 @@ public interface PostController {
 
     public Result<Post> findById(Integer id);
 
-    public Result<Post> update(Post post, Integer id);
+    public Result<Post> update(Post post, Integer id, String token);
 
     public Result delete(Integer id, String token);
 }
