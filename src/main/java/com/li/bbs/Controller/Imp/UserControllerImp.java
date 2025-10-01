@@ -1,5 +1,6 @@
 package com.li.bbs.Controller.Imp;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.li.bbs.Controller.UserController;
 import com.li.bbs.Pojo.*;
 import com.li.bbs.Service.UserService;
@@ -54,11 +55,18 @@ public class UserControllerImp implements UserController {
     }
 
     @SneakyThrows
-    @PostMapping("/update")
+    @PostMapping("/updateInfo")
     @Override
-    public Result updateUser(@RequestHeader String token,@RequestBody User user,@RequestBody MultipartFile file) {
-        userService.updateUser(token, user, file);
+    public Result updateUserInfo(@RequestHeader String token,@RequestBody User user) {
+        userService.updateUserInfo(token, user);
         return Result.success();
+    }
+
+    @PostMapping("/updateAvatar")
+    @Override
+    public Result<String> updateUserAvatar(@RequestHeader String token, MultipartFile file) throws ClientException {
+        String url = userService.updateUserAvatar(token, file);
+        return Result.success(url);
     }
 
 

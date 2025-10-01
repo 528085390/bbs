@@ -71,14 +71,17 @@ public class UserServiceImp implements UserService {
 
     @SneakyThrows
     @Override
-    public void updateUser(String token, User user, MultipartFile file) {
-        if (file != null) {
-            String url = ossUtil.uploadFile(file);
-            user.setAvatarUrl(url);
-        }
+    public void updateUserInfo(String token, User user) {
         user.setUpdatedTime(LocalDateTime.now());
         Integer userId = jwtUtil.extractUserId(token);
-        userMapper.updateUser(userId);
+        userMapper.updateUserInfo(userId, user);
+    }
+
+    @Override
+    public String updateUserAvatar(String token, MultipartFile file) throws ClientException {
+        String avatarUrl = ossUtil.uploadFile(file);
+        userMapper.updateUserAvatar(jwtUtil.extractUserId(token), avatarUrl);
+        return avatarUrl;
     }
 
 

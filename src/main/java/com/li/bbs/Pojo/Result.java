@@ -11,9 +11,12 @@ public class Result<T> {
     /** 响应数据 */
     private T data;
 
-
     /** 成功响应码 */
     public static final Integer SUCCESS = 200;
+    /** 创建成功响应码 */
+    public static final Integer CREATED = 201;
+    /** 删除成功响应码 */
+    public static final Integer NO_CONTENT = 204;
     /** 参数错误响应码 */
     public static final Integer PARAM_ERROR = 400;
     /** 未授权响应码 */
@@ -26,18 +29,24 @@ public class Result<T> {
     public static final Integer ERROR = 500;
 
 
+
+
     /**
-     * 成功响应
+     * 成功响应(默认200)
      */
-    public static <T> Result<T> success() {
+    public static <T> Result<T> success(Integer code) {
         Result<T> result = new Result<>();
-        result.setCode(SUCCESS);
+        result.setCode(code);
         result.setMessage("操作成功");
         return result;
     }
+    public static <T> Result<T> success(){
+         return success(SUCCESS);
+     }
+
 
     /**
-     * 成功响应
+     * 成功响应(带数据)
      * @param data 响应数据
      */
     public static <T> Result<T> success(T data) {
@@ -47,6 +56,7 @@ public class Result<T> {
         result.setData(data);
         return result;
     }
+
 
     /**
      * 失败响应

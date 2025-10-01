@@ -1,5 +1,6 @@
 package com.li.bbs.Controller;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.li.bbs.Pojo.*;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +20,9 @@ public interface UserController {
 
     Result<PageResult<Post>> getMyPosts(String token, QueryParam queryParam);
 
-    Result updateUser(String token, User user, MultipartFile file);
+    Result updateUserInfo(String token, User user);
+
+    Result<String> updateUserAvatar(String token, MultipartFile file) throws ClientException;
 
 
 }

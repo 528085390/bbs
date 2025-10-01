@@ -18,7 +18,9 @@ public interface UserService {
 
     public PageResult<Post> getMyPosts(String token, QueryParam queryParam);
 
-    void updateUser(String token, User user, MultipartFile file) throws ClientException;
+    void updateUserInfo(String token, User user);
+
+    String updateUserAvatar(String token, MultipartFile file) throws ClientException;
 
 
 

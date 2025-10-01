@@ -4,14 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 确保namespace与Mapper接口的全限定名一致 -->
 <mapper namespace="com.li.bbs.Mapper.UserMapper">
-    <update id="updateUser">
+    <update id="updateUserInfo">
         update user
         set
             <if test="email != null || email != ''">
                 email=#{email},
-            </if>
-            <if test="avatarUrl != null || avatarUrl != ''">
-                avatar_url= #{avatarUrl},
             </if>
             updated_time=#{updatedTime}
         where id=#{id}

@@ -36,5 +36,8 @@ public interface UserMapper {
     @Select("select * from post where user_id = #{userId}")
     List<Post> findPostsByUserId(Integer userId);
 
-    void updateUser(Integer userId);
+    void updateUserInfo(Integer userId,User user);
+
+    @Update("update user set avatar_url = #{avatarUrl} where id = #{userId}")
+    void updateUserAvatar(Integer userId, String avatarUrl);
 }
