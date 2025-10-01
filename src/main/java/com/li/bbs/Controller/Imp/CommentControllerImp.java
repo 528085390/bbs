@@ -7,6 +7,7 @@ import com.li.bbs.Pojo.PageResult;
 import com.li.bbs.Pojo.QueryParam;
 import com.li.bbs.Pojo.Result;
 import com.li.bbs.Service.CommentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,13 +34,13 @@ public class CommentControllerImp implements CommentController {
 
     @PostMapping("{postId}")
     @Override
-    public Result addComment(Integer postId, Comment comment, String token) {
+    public Result addComment(@PathVariable Integer postId, @Valid @RequestBody Comment comment,@RequestHeader String token) {
         commentService.addComment(postId, comment, token);
         return Result.success();
     }
 
     @GetMapping("{postId}")
-    public Result<PageResult<Comment>> getComment(Integer postId, QueryParam queryParam) {
+    public Result<PageResult<Comment>> getComment(@PathVariable Integer postId,@RequestBody QueryParam queryParam) {
         PageResult<Comment> comments = commentService.findByPostId(postId, queryParam);
         return Result.success(comments);
     }

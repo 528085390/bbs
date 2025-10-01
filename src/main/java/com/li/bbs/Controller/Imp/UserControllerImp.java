@@ -26,7 +26,7 @@ public class UserControllerImp implements UserController {
 
     @GetMapping("/favourites")
     @Override
-    public Result<PageResult<Post>> getFavourites(@RequestHeader String token, QueryParam queryParam) {
+    public Result<PageResult<Post>> getFavourites(@RequestHeader String token,@RequestBody QueryParam queryParam) {
         PageResult<Post> favourites = userService.getFavourites(token,queryParam);
         return Result.success(favourites);
     }
@@ -47,7 +47,7 @@ public class UserControllerImp implements UserController {
 
     @GetMapping("/posts")
     @Override
-    public Result<PageResult<Post>> getMyPosts(@RequestHeader String token, QueryParam queryParam) {
+    public Result<PageResult<Post>> getMyPosts(@RequestHeader String token,@RequestBody QueryParam queryParam) {
         PageResult<Post> myPosts = userService.getMyPosts(token, queryParam);
         return Result.success(myPosts);
 
@@ -56,7 +56,7 @@ public class UserControllerImp implements UserController {
     @SneakyThrows
     @PostMapping("/update")
     @Override
-    public Result updateUser(@RequestHeader String token, User user, MultipartFile file) {
+    public Result updateUser(@RequestHeader String token,@RequestBody User user,@RequestBody MultipartFile file) {
         userService.updateUser(token, user, file);
         return Result.success();
     }

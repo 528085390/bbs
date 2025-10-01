@@ -3,6 +3,7 @@ package com.li.bbs.Controller.Imp;
 import com.li.bbs.Controller.PostController;
 import com.li.bbs.Pojo.*;
 import com.li.bbs.Service.PostService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class PostControllerImp implements PostController {
 
     @PostMapping
     @Override
-    public Result add(@RequestBody Post newPost, String token) {
+    public Result add(@Valid @RequestBody Post newPost, @RequestHeader String token) {
         postService.add(newPost,token);
         return Result.success();
     }
@@ -25,7 +26,7 @@ public class PostControllerImp implements PostController {
 
     @GetMapping
     @Override
-    public Result<PageResult<Post>> page(QueryParam queryParam){
+    public Result<PageResult<Post>> page(@RequestBody QueryParam queryParam){
         PageResult<Post> pageResult= postService.page(queryParam);
         return Result.success(pageResult);
     }
@@ -39,14 +40,14 @@ public class PostControllerImp implements PostController {
 
     @PutMapping("/{id}")
     @Override
-    public Result<Post> update(Post post, @PathVariable Integer id) {
+    public Result<Post> update(@RequestBody Post post, @PathVariable Integer id) {
         Post update = postService.update(post, id);
         return Result.success(update);
     }
 
     @DeleteMapping("/{id}")
     @Override
-    public Result delete(@PathVariable Integer id, String token) {
+    public Result delete(@PathVariable Integer id,@RequestHeader String token) {
         postService.delete(id, token);
         return Result.success();
     }
