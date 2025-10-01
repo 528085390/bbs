@@ -9,8 +9,7 @@
             c.content as content,
             c.created_time as createdTime,
             c.user_id as userId,
-            c.post_id as postId,
-            c.id as id
+            c.post_id as postId
         FROM Comment c
         WHERE c.post_id = #{postId}
         ORDER BY c.created_time DESC

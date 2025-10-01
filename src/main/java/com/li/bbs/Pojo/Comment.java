@@ -1,5 +1,6 @@
 package com.li.bbs.Pojo;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,20 +12,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Comment {
-    private Integer page = 1;
-    private Integer pageSize = 10;
-    private Integer id;
     private Integer postId;
     private Integer userId;
+
+    @NotBlank(message = "评论内容不能为空")
     private String content;
+
     @DateTimeFormat(pattern= "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdTime;
 
-    public LocalDateTime getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(LocalDateTime createdTime) {
-        this.createdTime = createdTime;
-    }
 }

@@ -1,13 +1,16 @@
 package com.li.bbs.Service;
 
 import com.li.bbs.Pojo.Comment;
+import com.li.bbs.Pojo.PageResult;
+import com.li.bbs.Pojo.QueryParam;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
 public interface CommentService {
-    List<Comment> findByPostId(Integer postId, Integer page, Integer pageSize);
+    PageResult<Comment> findByPostId(Integer postId, QueryParam queryParam);
 
-    void addcomment(Comment comment);
+    void addComment(Integer postId,Comment comment, String token);
 
     void delete(Integer id);
 

@@ -1,9 +1,13 @@
 package com.li.bbs.Service.Imp;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.li.bbs.Mapper.CommentMapper;
 import com.li.bbs.Pojo.Comment;
+import com.li.bbs.Pojo.PageResult;
+import com.li.bbs.Pojo.QueryParam;
 import com.li.bbs.Service.CommentService;
+import com.li.bbs.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +18,11 @@ import java.util.List;
 
 public class CommentServiceImp implements CommentService {
     @Autowired
-    public CommentMapper commentMapper;
+    private CommentMapper commentMapper;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
 
  /*   public List<Comment> findByPostId(Integer postId) {
         return commentMapper.findByPostId(postId);
@@ -23,16 +31,19 @@ public class CommentServiceImp implements CommentService {
 
 
     @Override
-    public List<Comment> findByPostId(Integer postId, Integer page, Integer pageSize) {
-        // 开启分页
-        PageHelper.startPage(page, pageSize);
-        return commentMapper.findByPostId(postId);
+    public PageResult<Comment> findByPostId(Integer postId, QueryParam queryParam) {
+        Page<Comment> p = PageHelper.startPage(queryParam.getPage(), queryParam.getPageSize());
+        List<Comment> comments = commentMapper.findByPostId(postId);
+        return new PageResult<>(p.getTotal(), comments);
     }
 
     @Override
-    public void addcomment(Comment comment) {
+    public void addComment(Integer postId, Comment comment, String token) {
+        Integer userId = jwtUtil.extractUserId(token);
+        comment.setUserId(userId);
+        comment.setPostId(postId);
         comment.setCreatedTime(LocalDateTime.now());
-        commentMapper.addcomment(comment);
+        commentMapper.addComment(comment);
     }
 
     @Override

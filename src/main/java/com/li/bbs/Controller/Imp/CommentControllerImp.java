@@ -1,7 +1,10 @@
 package com.li.bbs.Controller.Imp;
 
 import com.github.pagehelper.PageInfo;
+import com.li.bbs.Controller.CommentController;
 import com.li.bbs.Pojo.Comment;
+import com.li.bbs.Pojo.PageResult;
+import com.li.bbs.Pojo.QueryParam;
 import com.li.bbs.Pojo.Result;
 import com.li.bbs.Service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +17,7 @@ import java.util.Map;
 
 @RequestMapping("/comment")
 @RestController
-
-public class CommentControllerImp {
+public class CommentControllerImp implements CommentController {
     @Autowired
     private CommentService commentService;
     /*@GetMapping()
@@ -29,48 +31,22 @@ public class CommentControllerImp {
         return Result.success(data);
     }*/
 
-    @GetMapping()
-    public Result getcomment(Comment comment) {
-        // 设置默认分页参数
-        if (comment.getPage() == null || comment.getPage() < 1) {
-            comment.setPage(1);
-        }
-        if (comment.getPageSize() == null || comment.getPageSize() < 1) {
-            comment.setPageSize(10);
-        }
-
-        // 使用PageHelper进行分页查询
-        List<Comment> comments = commentService.findByPostId(
-                comment.getPostId(),
-                comment.getPage(),
-                comment.getPageSize()
-        );
-
-        // 使用PageInfo获取分页信息
-        PageInfo<Comment> pageInfo = new PageInfo<>(comments);
-
-        // 将分页数据包装成对象
-        Map<String, Object> data = new HashMap<>();
-        data.put("comments", comments);
-        data.put("total", pageInfo.getTotal());
-        data.put("page", pageInfo.getPageNum());
-        data.put("pageSize", pageInfo.getPageSize());
-        data.put("pages", pageInfo.getPages());
-        data.put("hasNext", pageInfo.isHasNextPage());
-        data.put("hasPrevious", pageInfo.isHasPreviousPage());
-        return Result.success(data);
-    }
-
-
-    @PostMapping
-    public Result addcomment( @RequestBody Comment comment){
-        comment.setCreatedTime(LocalDateTime.now());
-        commentService.addcomment(comment);
+    @PostMapping("{postId}")
+    @Override
+    public Result addComment(Integer postId, Comment comment, String token) {
+        commentService.addComment(postId, comment, token);
         return Result.success();
     }
 
+    @GetMapping("{postId}")
+    public Result<PageResult<Comment>> getComment(Integer postId, QueryParam queryParam) {
+        PageResult<Comment> comments = commentService.findByPostId(postId, queryParam);
+        return Result.success(comments);
+    }
+
+
     @DeleteMapping
-    public Result delete(@RequestParam(value="id",required = false) Integer id){
+    public Result delete(@RequestParam(value = "id", required = false) Integer id) {
         commentService.delete(id);
         return Result.success();
     }
