@@ -38,5 +38,6 @@ public interface UserMapper {
     List<Post> findAllFavourites(Integer userId);
 
 
-    void updateUser(User user);
+    @Select("select * from post where user_id = #{userId}")
+    List<Post> findPostsByUserId(Integer userId);
 }

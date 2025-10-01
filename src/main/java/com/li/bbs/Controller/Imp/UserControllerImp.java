@@ -41,9 +41,9 @@ public class UserControllerImp implements UserController {
         return Result.success();
     }
 
-    @PostMapping("/posts")
+    @GetMapping("/posts")
     @Override
-    public Result<PageResult<Post>> getMyPosts(String token, QueryParam queryParam) {
+    public Result<PageResult<Post>> getMyPosts(@RequestHeader String token, QueryParam queryParam) {
         PageResult<Post> myPosts = userService.getMyPosts(token, queryParam);
         return Result.success(myPosts);
 

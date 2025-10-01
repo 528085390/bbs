@@ -57,7 +57,11 @@ public class UserServiceImp implements UserService {
 
     @Override
     public PageResult<Post> getMyPosts(String token, QueryParam queryParam) {
-        return null;
+        Integer userId = jwtUtil.extractUserId(token);
+        Page<Post> p = PageHelper.startPage(queryParam.getPage(), queryParam.getPageSize());
+        List<Post> myPosts = userMapper.findPostsByUserId(userId);
+        return new PageResult<>(p.getTotal(), myPosts);
+
     }
 
 

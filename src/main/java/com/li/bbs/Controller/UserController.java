@@ -14,7 +14,7 @@ public interface UserController {
 
     Result removeFavourite(String token, Integer postId);
 
-    Result<PageResult<Post> getMyPosts(String token, QueryParam queryParam);
+    Result<PageResult<Post>> getMyPosts(String token, QueryParam queryParam);
 
 
 }
