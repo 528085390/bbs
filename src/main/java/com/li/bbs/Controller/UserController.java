@@ -1,6 +1,7 @@
 package com.li.bbs.Controller;
 
 import com.li.bbs.Pojo.*;
+import org.springframework.security.core.parameters.P;
 
 
 public interface UserController {
@@ -12,6 +13,8 @@ public interface UserController {
     Result addFavourite(String token, Integer postId);
 
     Result removeFavourite(String token, Integer postId);
+
+    Result<PageResult<Post> getMyPosts(String token, QueryParam queryParam);
 
 
 }

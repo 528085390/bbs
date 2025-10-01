@@ -55,5 +55,10 @@ public class UserServiceImp implements UserService {
 
     }
 
+    @Override
+    public PageResult<Post> getMyPosts(String token, QueryParam queryParam) {
+        return null;
+    }
+
 
 }

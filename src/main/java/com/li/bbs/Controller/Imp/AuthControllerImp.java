@@ -33,13 +33,9 @@ public class AuthControllerImp implements AuthController {
 
     @PostMapping("/login")
     @Override
-    public Result<String> login(@Valid @RequestBody User longinUser) {
+    public Result<String> login(@RequestBody User longinUser) {
         String token = authService.login(longinUser.getUsername(),longinUser.getPassword());
         return Result.success(token);
     }
 
-    @Override
-    public Result<UserResponse> updateUser(@Valid @RequestBody User user, String token) {
-        authService.updateUser(user, token)
-    }
 }

@@ -8,8 +8,7 @@ import java.time.LocalDateTime;
 public interface AuthService {
     public void register (User newUser);
     public String login (String username, String password);
-    UserResponse updateUser(User user, String token);
 
-    void updateTime(LocalDateTime updatedTime, Integer userId);
+    void updateTime(Integer userId);
 
 }

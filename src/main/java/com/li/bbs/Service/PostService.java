@@ -7,15 +7,15 @@ import com.li.bbs.Pojo.Post;
 
 public interface PostService {
 
-    public Post add(Post newPost);
+    void add(Post newPost, String token);
 
-     public PageResult<Post> page(QueryParam queryParam);
+    public PageResult<Post> page(QueryParam queryParam);
 
      public Post findById(Integer id);
 
      public Post update(Post post, Integer Id) ;
 
-     public void delete(Integer id);
+     public void delete(Integer id, String token);
 
 
 

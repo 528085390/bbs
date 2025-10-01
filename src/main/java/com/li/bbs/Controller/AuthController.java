@@ -8,5 +8,5 @@ public interface AuthController {
 
     public Result<Integer> register(User newUserInfo);
     public Result<String> login(User loginUser);
-    public Result<UserResponse> updateUser(User user,String token);
+
 }

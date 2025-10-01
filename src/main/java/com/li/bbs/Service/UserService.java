@@ -12,6 +12,8 @@ public interface UserService {
 
     public void removeFavourite(String token, Integer postId);
 
+    public PageResult<Post> getMyPosts(String token, QueryParam queryParam);
+
 
 
 }

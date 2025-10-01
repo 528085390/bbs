@@ -1,6 +1,7 @@
 package com.li.bbs.Service.Imp;
 
 import com.li.bbs.Mapper.AuthMapper;
+import com.li.bbs.Mapper.UserMapper;
 import com.li.bbs.Pojo.User;
 import com.li.bbs.Pojo.UserResponse;
 import com.li.bbs.Service.AuthService;
@@ -35,7 +36,7 @@ public class AuthServiceImp implements AuthService {
         authMapper.addUser(newUserInfo);
     }
 
-    @Transactional
+    @Transactional()
     @Override
     public String login(String username, String password) {
         User user = authMapper.findByUsername(username);
@@ -45,18 +46,10 @@ public class AuthServiceImp implements AuthService {
         throw new RuntimeException("用户名或密码错误");
     }
 
-    @Override
-    public UserResponse updateUser(User user, String token) {
-        Integer userId = jwtUtil.extractUserId(token);
-        String encodePassword = new BCryptPasswordEncoder().encode(user.getPassword());
-        user.setPassword(encodePassword);
-        user.setUpdatedTime(LocalDateTime.now());
-        authMapper.updateUser(user);
-    }
 
     @Override
-    public void updateTime(LocalDateTime updatedTime, Integer userId) {
-        authMapper.updataTime(updatedTime, userId);
+    public void updateTime(Integer userId) {
+        authMapper.updateTime(LocalDateTime.now(), userId);
     }
 
 

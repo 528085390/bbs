@@ -11,6 +11,7 @@ import com.li.bbs.Service.PostService;
 import com.li.bbs.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,15 +26,15 @@ public class PostServiceImp implements PostService {
     private PostMapper postMapper;
 
     @Override
-    public Post add(Post newPost) {
+    public void add(Post newPost, String token) {
+        Integer userId = jwtUtil.extractUserId(token);
+        newPost.setUserId(userId);
         newPost.setCreatedTime(LocalDateTime.now());
         newPost.setUpdatedTime(LocalDateTime.now());
-        newPost.setViewsCount(0);
-        newPost.setCommentsCount(0);
-        if(postMapper.addPost(newPost) != 1){
-            return null;
+        Integer res = postMapper.addPost(newPost);
+        if (res != 1) {
+            throw new RuntimeException("添加失败");
         }
-        return newPost;
     }
 
     @Override
@@ -44,6 +45,7 @@ public class PostServiceImp implements PostService {
 
     }
 
+    @Transactional
     @Override
     public Post findById(Integer id) {
         postMapper.incrementViewsCount(id);
@@ -57,8 +59,13 @@ public class PostServiceImp implements PostService {
         return postMapper.findById(id);
     }
 
+    @Transactional
     @Override
-    public void delete(Integer id) {
+    public void delete(Integer id,String token) {
+        Integer userId = jwtUtil.extractUserId(token);
+        if (!postMapper.findById(id).getUserId().equals(userId)) {
+            throw new RuntimeException("没有权限");
+        }
         postMapper.delete(id);
     }
 

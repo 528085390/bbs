@@ -3,6 +3,7 @@ package com.li.bbs.Mapper;
 
 import com.li.bbs.Pojo.Post;
 import com.li.bbs.Pojo.QueryParam;
+import com.li.bbs.Pojo.User;
 import com.li.bbs.Pojo.UserResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -37,4 +38,5 @@ public interface UserMapper {
     List<Post> findAllFavourites(Integer userId);
 
 
+    void updateUser(User user);
 }

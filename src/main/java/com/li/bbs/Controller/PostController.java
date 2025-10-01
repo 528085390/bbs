@@ -15,5 +15,5 @@ public interface PostController {
 
     public Result<Post> update(Post post, Integer id);
 
-    public Result delete(Integer id);
+    public Result delete(Integer id, String token);
 }

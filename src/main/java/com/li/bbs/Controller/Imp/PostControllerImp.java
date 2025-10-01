@@ -17,12 +17,9 @@ public class PostControllerImp implements PostController {
 
     @PostMapping
     @Override
-    public Result<Post> add(@RequestBody Post newPost, String token) {
-        Post res = postService.add(newPost);
-        if (res == null){
-            return Result.error(500,"添加帖子失败");
-        }
-        return Result.success(res);
+    public Result add(@RequestBody Post newPost, String token) {
+        postService.add(newPost,token);
+        return Result.success();
     }
 
 
@@ -49,8 +46,8 @@ public class PostControllerImp implements PostController {
 
     @DeleteMapping("/{id}")
     @Override
-    public Result delete(@PathVariable Integer id) {
-        postService.delete(id);
+    public Result delete(@PathVariable Integer id, String token) {
+        postService.delete(id, token);
         return Result.success();
     }
 
