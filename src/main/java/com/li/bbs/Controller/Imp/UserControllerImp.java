@@ -3,8 +3,12 @@ package com.li.bbs.Controller.Imp;
 import com.li.bbs.Controller.UserController;
 import com.li.bbs.Pojo.*;
 import com.li.bbs.Service.UserService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 
 
 @RestController
@@ -47,6 +51,14 @@ public class UserControllerImp implements UserController {
         PageResult<Post> myPosts = userService.getMyPosts(token, queryParam);
         return Result.success(myPosts);
 
+    }
+
+    @SneakyThrows
+    @PostMapping("/update")
+    @Override
+    public Result updateUser(@RequestHeader String token, User user, MultipartFile file) {
+        userService.updateUser(token, user, file);
+        return Result.success();
     }
 
 

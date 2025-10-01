@@ -1,6 +1,10 @@
 package com.li.bbs.Service;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.li.bbs.Pojo.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 
 public interface UserService {
 
@@ -13,6 +17,8 @@ public interface UserService {
     public void removeFavourite(String token, Integer postId);
 
     public PageResult<Post> getMyPosts(String token, QueryParam queryParam);
+
+    void updateUser(String token, User user, MultipartFile file) throws ClientException;
 
 
 

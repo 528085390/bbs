@@ -5,6 +5,8 @@ import com.aliyun.oss.common.auth.*;
 import com.aliyun.oss.common.comm.SignVersion;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.InputStream;
@@ -12,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+@Component
 public class OssUtil {
 
     private static final String ENDPOINT = "https://oss-cn-guangzhou.aliyuncs.com";
@@ -44,6 +47,91 @@ public class OssUtil {
             }
         }
         return ossClient;
+    }
+
+    /**
+     * 上传MultipartFile到OSS(自动按日期分类并生成唯一文件名)
+     * @param multipartFile Spring的MultipartFile对象
+     * @return 文件访问URL
+     * @throws OSSException OSS异常
+     * @throws ClientException 客户端异常
+     * @throws com.aliyuncs.exceptions.ClientException 凭证异常
+     */
+    public String uploadFile(MultipartFile multipartFile)
+            throws OSSException, ClientException, com.aliyuncs.exceptions.ClientException {
+        String objectName = generateAutoPath(multipartFile.getOriginalFilename());
+        return uploadFile(BUCKET_NAME, objectName, multipartFile);
+    }
+
+    /**
+     * 上传MultipartFile到指定Bucket(自动按日期分类并生成唯一文件名)
+     * @param bucketName Bucket名称
+     * @param multipartFile Spring的MultipartFile对象
+     * @return 文件访问URL
+     * @throws OSSException OSS异常
+     * @throws ClientException 客户端异常
+     * @throws com.aliyuncs.exceptions.ClientException 凭证异常
+     */
+    public static String uploadFileAuto(String bucketName, MultipartFile multipartFile)
+            throws OSSException, ClientException, com.aliyuncs.exceptions.ClientException {
+        String objectName = generateAutoPath(multipartFile.getOriginalFilename());
+        return uploadFile(bucketName, objectName, multipartFile);
+    }
+
+    /**
+     * 上传MultipartFile到OSS
+     * @param objectName OSS上的文件路径和名称
+     * @param multipartFile Spring的MultipartFile对象
+     * @return 文件访问URL
+     * @throws OSSException OSS异常
+     * @throws ClientException 客户端异常
+     * @throws com.aliyuncs.exceptions.ClientException 凭证异常
+     */
+    public static String uploadFile(String objectName, MultipartFile multipartFile)
+            throws OSSException, ClientException, com.aliyuncs.exceptions.ClientException {
+        return uploadFile(BUCKET_NAME, objectName, multipartFile);
+    }
+
+    /**
+     * 上传MultipartFile到指定Bucket
+     * @param bucketName Bucket名称
+     * @param objectName OSS上的文件路径和名称
+     * @param multipartFile Spring的MultipartFile对象
+     * @return 文件访问URL
+     * @throws OSSException OSS异常
+     * @throws ClientException 客户端异常
+     * @throws com.aliyuncs.exceptions.ClientException 凭证异常
+     */
+    public static String uploadFile(String bucketName, String objectName, MultipartFile multipartFile)
+            throws OSSException, ClientException, com.aliyuncs.exceptions.ClientException {
+
+        OSS client = getOssClient();
+        try {
+            // 创建PutObjectRequest对象，直接使用MultipartFile的输入流
+            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, objectName, multipartFile.getInputStream());
+
+            // 上传文件
+            PutObjectResult result = client.putObject(putObjectRequest);
+
+            // 构造并返回文件URL
+            return generateFileUrl(bucketName, objectName);
+        } catch (OSSException oe) {
+            System.out.println("Caught an OSSException, which means your request made it to OSS, "
+                    + "but was rejected with an error response for some reason.");
+            System.out.println("Error Message:" + oe.getErrorMessage());
+            System.out.println("Error Code:" + oe.getErrorCode());
+            System.out.println("Request ID:" + oe.getRequestId());
+            System.out.println("Host ID:" + oe.getHostId());
+            throw oe;
+        } catch (ClientException ce) {
+            System.out.println("Caught an ClientException, which means the client encountered "
+                    + "a serious internal problem while trying to communicate with OSS, "
+                    + "such as not being able to access the network.");
+            System.out.println("Error Message:" + ce.getMessage());
+            throw ce;
+        } catch (java.io.IOException e) {
+            throw new ClientException("Failed to get InputStream from MultipartFile", e);
+        }
     }
 
     /**
@@ -97,19 +185,6 @@ public class OssUtil {
         return datePath + "/" + uniqueFileName + extension;
     }
 
-    /**
-     * 上传文件到OSS
-     * @param objectName OSS上的文件路径和名称
-     * @param file 要上传的文件
-     * @return 文件访问URL
-     * @throws OSSException OSS异常
-     * @throws ClientException 客户端异常
-     * @throws com.aliyuncs.exceptions.ClientException 凭证异常
-     */
-    public static String uploadFile(String objectName, File file)
-            throws OSSException, ClientException, com.aliyuncs.exceptions.ClientException {
-        return uploadFile(BUCKET_NAME, objectName, file);
-    }
 
     /**
      * 上传文件到指定Bucket
@@ -151,19 +226,6 @@ public class OssUtil {
         }
     }
 
-    /**
-     * 上传InputStream到OSS
-     * @param objectName OSS上的文件路径和名称
-     * @param inputStream 文件输入流
-     * @return 文件访问URL
-     * @throws OSSException OSS异常
-     * @throws ClientException 客户端异常
-     * @throws com.aliyuncs.exceptions.ClientException 凭证异常
-     */
-    public static String uploadFile(String objectName, InputStream inputStream)
-            throws OSSException, ClientException, com.aliyuncs.exceptions.ClientException {
-        return uploadFile(BUCKET_NAME, objectName, inputStream);
-    }
 
     /**
      * 上传InputStream到指定Bucket

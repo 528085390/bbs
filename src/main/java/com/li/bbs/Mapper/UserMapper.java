@@ -5,10 +5,7 @@ import com.li.bbs.Pojo.Post;
 import com.li.bbs.Pojo.QueryParam;
 import com.li.bbs.Pojo.User;
 import com.li.bbs.Pojo.UserResponse;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,8 +24,6 @@ public interface UserMapper {
     @Delete("delete from favourite where user_id = #{userId} and post_id = #{postId}")
     void removeFavourite(Integer userId, Integer postId);
 
-    List<Integer> findAllFavouritePostId(Integer userId);
-
     @Select("select p.* " +
             "FROM post p " +
             "INNER JOIN favourite f " +
@@ -40,4 +35,6 @@ public interface UserMapper {
 
     @Select("select * from post where user_id = #{userId}")
     List<Post> findPostsByUserId(Integer userId);
+
+    void updateUser(Integer userId);
 }

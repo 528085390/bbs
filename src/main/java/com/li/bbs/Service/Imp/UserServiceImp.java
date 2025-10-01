@@ -1,18 +1,20 @@
 package com.li.bbs.Service.Imp;
 
 
+import com.aliyuncs.exceptions.ClientException;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.li.bbs.Mapper.UserMapper;
-import com.li.bbs.Pojo.PageResult;
-import com.li.bbs.Pojo.Post;
-import com.li.bbs.Pojo.QueryParam;
-import com.li.bbs.Pojo.UserResponse;
+import com.li.bbs.Pojo.*;
 import com.li.bbs.Service.UserService;
 import com.li.bbs.util.JwtUtil;
+import com.li.bbs.util.OssUtil;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,10 +28,13 @@ public class UserServiceImp implements UserService {
     @Autowired
     JwtUtil jwtUtil;
 
+    @Autowired
+    OssUtil ossUtil;
+
     @Override
     public UserResponse getInfo(String token) {
         Integer userId = jwtUtil.extractUserId(token);
-        UserResponse userInfo  = userMapper.findById(userId);
+        UserResponse userInfo = userMapper.findById(userId);
         return userInfo;
     }
 
@@ -45,13 +50,13 @@ public class UserServiceImp implements UserService {
     @Override
     public void addFavourite(String token, Integer postId) {
         Integer userId = jwtUtil.extractUserId(token);
-        userMapper.addFavourite(userId,postId, LocalDateTime.now());
+        userMapper.addFavourite(userId, postId, LocalDateTime.now());
     }
 
     @Override
     public void removeFavourite(String token, Integer postId) {
         Integer userId = jwtUtil.extractUserId(token);
-        userMapper.removeFavourite(userId,postId);
+        userMapper.removeFavourite(userId, postId);
 
     }
 
@@ -62,6 +67,18 @@ public class UserServiceImp implements UserService {
         List<Post> myPosts = userMapper.findPostsByUserId(userId);
         return new PageResult<>(p.getTotal(), myPosts);
 
+    }
+
+    @SneakyThrows
+    @Override
+    public void updateUser(String token, User user, MultipartFile file) {
+        if (file != null) {
+            String url = ossUtil.uploadFile(file);
+            user.setAvatarUrl(url);
+        }
+        user.setUpdatedTime(LocalDateTime.now());
+        Integer userId = jwtUtil.extractUserId(token);
+        userMapper.updateUser(userId);
     }
 
 
