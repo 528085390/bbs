@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
+@Slf4j
 @RestController
 @RequestMapping("/posts")
 public class PostControllerImp implements PostController {
@@ -24,7 +24,13 @@ public class PostControllerImp implements PostController {
     @PostMapping
     @Override
     public Result add(@Valid @RequestBody Post newPost, @RequestHeader String token) {
+        //校验帖子参数
+        if (!validationUtil.isValidPost(newPost)) {
+            return Result.error(Result.PARAM_ERROR, "帖子参数不符合要求：标题、副标题或内容格式不正确");
+        }
+
         postService.add(newPost,token);
+        log.info("添加新帖子：{},传递令牌：{}",newPost, token);
         return Result.success(Result.CREATED);
     }
 
@@ -33,20 +39,31 @@ public class PostControllerImp implements PostController {
     @Override
     public Result<PageResult<Post>> page(@RequestBody QueryParam queryParam){
         PageResult<Post> pageResult= postService.page(queryParam);
+        log.info("分页查询帖子：{}",queryParam);
         return Result.success(pageResult);
     }
 
     @GetMapping("/{id}")
     @Override
     public Result<Post> findById(@PathVariable Integer id) {
+        //校验帖子id
+        if (id == null) {
+            return Result.error(Result.PARAM_ERROR, "帖子id不能为空");
+        }
         Post postById = postService.findById(id);
+        log.info("查询帖子：{}",id);
         return Result.success(postById);
     }
 
     @PutMapping("/{id}")
     @Override
     public Result update(@RequestBody Post post, @PathVariable Integer id,@RequestHeader String token) {
+        //校验帖子参数
+        if (!validationUtil.isValidPost(post)) {
+            return Result.error(Result.PARAM_ERROR, "帖子参数不符合要求：标题、副标题或内容格式不正确");
+        }
         postService.update(post, id, token);
+        log.info("更新帖子：{},传递令牌：{}",post, token);
         return Result.success(Result.NO_CONTENT);
     }
 
@@ -54,6 +71,7 @@ public class PostControllerImp implements PostController {
     @Override
     public Result delete(@PathVariable Integer id,@RequestHeader String token) {
         postService.delete(id, token);
+        log.info("删除帖子：{},传递令牌：{}",id, token);
         return Result.success(Result.NO_CONTENT);
     }
 

@@ -1,5 +1,8 @@
 package com.li.bbs.util;
 
+import com.li.bbs.Pojo.Post;
+import com.li.bbs.Pojo.QueryParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -11,7 +14,7 @@ import java.util.regex.Pattern;
  */
 @Component
 public class ValidationUtil {
-
+    //登录注册：邮箱、用户名、手机号
     // 邮箱正则表达式
     private static final String EMAIL_PATTERN =
         "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
@@ -99,4 +102,123 @@ public class ValidationUtil {
         }
         return number >= min && number <= max;
     }
+
+    //添加评论参数校验
+    public static boolean isValidComment(String content) {
+        if (!StringUtils.hasText(content)) {
+            return false; // 评论不能为空
+        }
+        // 评论长度不能超过200字
+        if (!isValidLength(content, 1, 200)) {
+            return false;
+        }
+
+        // 检查是否包含敏感字符
+        if (containsSensitiveWords(content)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 检查是否包含敏感词
+     * @param content 待检查内容
+     * @return true:包含敏感词 false:不包含
+     */
+    private static boolean containsSensitiveWords(String content) {
+        if (content == null) {
+            return false;
+        }
+
+        // 敏感词列表(可以从数据库或配置文件加载)
+        String[] sensitiveWords = {
+                "垃圾", "废物", "傻逼", "笨蛋", "蠢货", "白痴",
+                "fuck", "shit", "damn", "idiot", "stupid"
+        };
+
+        for (String word : sensitiveWords) {
+            if (content.contains(word)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 获取敏感词列表(实际应用中建议从配置文件或数据库加载)
+     * @return 敏感词数组
+     */
+    public static String[] getSensitiveWords() {
+        return new String[] {
+                "垃圾", "废物", "傻逼", "笨蛋", "蠢货", "白痴",
+                "fuck", "shit", "damn", "idiot", "stupid"
+                // 可以根据需要添加更多敏感词
+        };
+    }
+
+
+    //添加帖子参数校验:
+    public static boolean isValidPostTitle(String title) {
+        if (!StringUtils.hasText(title)) {
+            return false; // 标题不能为空
+        }
+        if(!isValidLength(title, 1, 50)){
+            return false;// 标题长度不能超过50字
+        }
+        if (containsSensitiveWords(title)) {
+            return false; // 标题不能包含敏感词
+        }
+        return true;
+    }
+    public static boolean isValidPostSubtitle(String subtitle) {
+        if (!StringUtils.hasText(subtitle)) {
+            return false; // 副标题不能为空
+        }
+        if(!isValidLength(subtitle, 1, 100)){
+            return false;// 副标题长度不能超过100字
+        }
+        if (containsSensitiveWords(subtitle)) {
+            return false; // 副标题不能包含敏感词
+        }
+        return true;
+    }
+    public static boolean isValidPostContent(String  content){
+        if (!StringUtils.hasText(content)) {
+            return false; // 内容不能为空
+        }
+        if(containsSensitiveWords(content)){
+            return false;//内容不能包含敏感词
+        }
+        return true;
+    }
+    public static boolean isValidPost(Post post){
+        if(post==null){
+            return false;
+        }
+        return isValidPostTitle(post.getTitle())
+                && isValidPostSubtitle(post.getSubtitle())
+                && isValidPostContent(post.getContent());
+    }
+
+    //校验User参数
+    public static boolean isValidAvatarUrl(String avatarUrl){
+        if(!avatarUrl.startsWith("http://")&&!avatarUrl.startsWith("https://")){
+            return false;// 头像URL格式必须以http://或https://开头
+        }
+        return true;
+    }
+    public static boolean isValidPassword(String password) {
+        if (!StringUtils.hasText(password)) {
+            return false; // 密码不能为空
+        }
+        // 密码长度应在6-20位之间
+        if (!isValidLength(password, 6, 20)) {
+            return false;
+        }
+
+        return true;
+    }
+
 }
+
