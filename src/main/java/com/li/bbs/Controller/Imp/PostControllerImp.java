@@ -3,7 +3,9 @@ package com.li.bbs.Controller.Imp;
 import com.li.bbs.Controller.PostController;
 import com.li.bbs.Pojo.*;
 import com.li.bbs.Service.PostService;
+import com.li.bbs.util.ValidationUtil;
 import jakarta.validation.Valid;
+import jakarta.validation.Validation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,9 @@ public class PostControllerImp implements PostController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private ValidationUtil validationUtil;
 
     @PostMapping
     @Override

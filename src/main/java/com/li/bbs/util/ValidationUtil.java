@@ -67,7 +67,7 @@ public class ValidationUtil {
      * @param str 待校验字符串
      * @return 校验结果 true:不为空 false:为空
      */
-    public static boolean isNotBlank(String str) {
+    public  boolean isNotBlank(String str) {
         return StringUtils.hasText(str);
     }
 

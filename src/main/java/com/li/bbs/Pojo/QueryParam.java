@@ -1,12 +1,16 @@
 package com.li.bbs.Pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class QueryParam {
     private Integer page = 1;
     private Integer pageSize = 10;

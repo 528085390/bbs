@@ -11,15 +11,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 
-
-@RestController
 @RequestMapping("/user")
+@RestController
 public class UserControllerImp implements UserController {
 
     @Autowired
     private UserService userService;
 
     @GetMapping("/me")
+    @Override
     public Result<UserResponse> getInfo(@RequestHeader String token) {
         UserResponse userInfo = userService.getInfo(token);
         return Result.success(userInfo);
