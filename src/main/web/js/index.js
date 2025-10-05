@@ -50,3 +50,43 @@ login.addEventListener('click', () => {
     cancel.style.display = "block";
     screen.style.display = "block";
 })
+
+
+
+
+
+
+
+
+
+
+// 单个帖子往返
+const ul_longPost = document.querySelector('#longPost');
+const singlePost = document.querySelector('#singlePost');
+const ul_longPost_li_as = document.querySelectorAll('#longPost li a');
+const singlePost_back = document.querySelector('#singlePost_back');
+
+
+ul_longPost_li_as.forEach(function (ul_longPost_li_a) {
+    ul_longPost_li_a.addEventListener('click', () => {
+        ul_longPost.style.display = "none";
+        singlePost.style.display = "block";
+        // ul_longPost.style.opacity = "0";
+        // singlePost.style.opacity = "1";
+        // ul_longPost.style.zIndex = "1";
+        // singlePost.style.zIndex = "2";
+
+    })
+
+})
+singlePost_back.addEventListener('click', () => {
+    ul_longPost.style.display = "block";
+    singlePost.style.display = "none";
+    // ul_longPost.style.opacity = "1";
+    // singlePost.style.opacity = "0";
+    // ul_longPost.style.zIndex = "2";
+    // singlePost.style.zIndex = "1";
+})
+
+
+

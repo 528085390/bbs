@@ -209,6 +209,7 @@
         // border-left: 5px solid red;
         // border-right: 5px solid rgba(255, 255, 255, 0.491);
 
+
         #searchForm {
             position: relative;
             display: flex;
@@ -226,6 +227,7 @@
                 border-radius: 50px;
                 font-size: 1rem;
                 border: 1px solid rgb(234, 70, 70);
+                text-indent: 5px;
             }
 
             button {
@@ -255,6 +257,11 @@
 
         ul {
             width: 100%;
+            transition: all 0.3s ease;
+            // opacity: 1;
+            // z-index: 2;
+            // display: none;
+            // 记得改回来
 
             li {
                 width: 100%;
@@ -304,7 +311,138 @@
 
 
 
+        #singlePost {
+            width: 100%;
+            height: 90%;
+            transition: all 0.3s ease;
 
+            // 记得做完这里把middlecontent的ul的display改回来
+            display: none;
+            // opacity: 0;
+            // z-index: 1;
+
+            #singlePost_back {
+                width: 30px;
+                height: 30px;
+                cursor: pointer;
+            }
+
+
+            #singlePost_topic_in {
+                font-weight: 700;
+                font-size: 30px;
+            }
+
+            #every_bottom {
+                // display: flex;
+                position: relative;
+                width: 100%;
+                height: 30px;
+
+                div {
+                    position: absolute;
+                    right: 0;
+                }
+
+                svg {
+                    margin: -4px 0;
+
+                }
+            }
+
+            #singlePost_user_information {
+                display: flex;
+                margin-top: 20px;
+                width: 100%;
+                height: 30px;
+
+                img {
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 100%;
+
+                }
+
+                #singlePost_user_information_userName {
+                    line-height: 30px;
+                    font-size: 20px;
+                    margin-right: 20px;
+
+                }
+
+                #singlePost_user_information_time {
+                    line-height: 30px;
+                    font-size: 20px;
+                }
+            }
+
+            #singlePost_content {
+                width: 100%;
+                height: 200px;
+                margin-top: 30px;
+
+            }
+
+            #singlePost_reply_show {
+                width: 100%;
+                display: flex;
+                margin-left: 20px;
+
+                img {
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 100%;
+                }
+
+                .singlePost_replyer_Name {
+                    height: 30px;
+                    line-height: 30px;
+                }
+
+                .replyer_word {
+                    height: 30px;
+                    line-height: 30px;
+                }
+
+            }
+
+
+            #singlePost_reply_write {
+                width: 100%;
+                height: 20%;
+                margin-top: 20px;
+
+                textarea {
+                    width: 100%;
+                    height: 90%;
+                    resize: none;
+                    font-size: 20px;
+                    border-radius: 20px;
+                    text-indent: 20px;
+
+                }
+
+                button {
+                    width: 100px;
+                    height: 50px;
+                    line-height: 50px;
+                    margin-top: 5px;
+                    border-radius: 20px;
+                    background-color: rgb(234, 70, 70);
+                    color: white;
+                    border: none;
+                    font-size: 20px;
+                    float: right;
+                    transition: all 0.3s ease;
+
+                    &:active {
+                        transform: scale(0.8, 0.8);
+                    }
+                }
+            }
+
+
+        }
 
 
 
@@ -565,10 +703,10 @@
     cursor: pointer;
     transition: all 0.1s ease-in-out;
 
-    &:active {
-        // 点击按钮时缩小放大
-        transform: scale(0.9, 0.9);
-    }
+    // &:active {
+    //     // 点击按钮时缩小放大
+    //     transform: scale(0.9, 0.9);
+    // }
 
 }
 
