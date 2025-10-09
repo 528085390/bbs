@@ -37,7 +37,7 @@ public class PostControllerImp implements PostController {
 
     @GetMapping
     @Override
-    public Result<PageResult<Post>> page(@RequestBody QueryParam queryParam){
+    public Result<PageResult<Post>> page(QueryParam queryParam){
         PageResult<Post> pageResult= postService.page(queryParam);
         log.info("分页查询帖子：{}",queryParam);
         return Result.success(pageResult);
