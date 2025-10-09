@@ -74,16 +74,15 @@ public class UserControllerImp implements UserController {
     @PostMapping("/updateInfo")
     @Override
     public Result updateUserInfo(@RequestHeader String token,@RequestBody User user) {
-        ValidationUtil validationUtil = new ValidationUtil();
         userService.updateUserInfo(token, user);
         // 校验参数
-        if(!validationUtil.isValidEmail(user.getEmail())){
+        if(!ValidationUtil.isValidEmail(user.getEmail())){
             return Result.error(Result.PARAM_ERROR,"用户邮箱格式不符合要求...");
         }
-        if(!validationUtil.isValidUsername(user.getUsername())){
+        if(!ValidationUtil.isValidUsername(user.getUsername())){
             return Result.error(Result.PARAM_ERROR,"用户名长度必须在2到20之间...");
         }
-        if(!validationUtil.isValidPassword(user.getPassword())){
+        if(!ValidationUtil.isValidPassword(user.getPassword())){
             return Result.error(Result.PARAM_ERROR,"密码长度应在6-20位之间...");
         }
         log.info("更新用户信息成功");

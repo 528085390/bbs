@@ -16,25 +16,25 @@ import java.util.regex.Pattern;
 public class ValidationUtil {
     //登录注册：邮箱、用户名、手机号
     // 邮箱正则表达式
-    private  final String EMAIL_PATTERN =
+    private static final String EMAIL_PATTERN =
         "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
     // 用户名正则表达式（字母、数字、下划线，2-20位）
-    private  final String USERNAME_PATTERN = "^[a-zA-Z0-9_]{2,20}$";
+    private static final String USERNAME_PATTERN = "^[a-zA-Z0-9_]{2,20}$";
 
     // 手机号正则表达式
-    private  final String PHONE_PATTERN = "^1[3-9]\\d{9}$";
+    private static final String PHONE_PATTERN = "^1[3-9]\\d{9}$";
 
-    private  final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
-    private  final Pattern usernamePattern = Pattern.compile(USERNAME_PATTERN);
-    private  final Pattern phonePattern = Pattern.compile(PHONE_PATTERN);
+    private static final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
+    private static final Pattern usernamePattern = Pattern.compile(USERNAME_PATTERN);
+    private static final Pattern phonePattern = Pattern.compile(PHONE_PATTERN);
 
     /**
      * 校验邮箱格式
      * @param email 邮箱地址
      * @return 校验结果 true:格式正确 false:格式错误
      */
-    public  boolean isValidEmail(String email) {
+    public static boolean isValidEmail(String email) {
         if (!StringUtils.hasText(email)) {
             return false;
         }
@@ -46,7 +46,7 @@ public class ValidationUtil {
      * @param username 用户名
      * @return 校验结果 true:格式正确 false:格式错误
      */
-    public  boolean isValidUsername(String username) {
+    public static boolean isValidUsername(String username) {
         if (!StringUtils.hasText(username)) {
             return false;
         }
@@ -58,7 +58,7 @@ public class ValidationUtil {
      * @param phone 手机号
      * @return 校验结果 true:格式正确 false:格式错误
      */
-    public  boolean isValidPhone(String phone) {
+    public static boolean isValidPhone(String phone) {
         if (!StringUtils.hasText(phone)) {
             return false;
         }
@@ -81,7 +81,7 @@ public class ValidationUtil {
      * @param max 最大长度
      * @return 校验结果 true:符合长度要求 false:不符合长度要求
      */
-    public  boolean isValidLength(String str, int min, int max) {
+    public static boolean isValidLength(String str, int min, int max) {
         if (str == null) {
             return false;
         }
@@ -96,7 +96,7 @@ public class ValidationUtil {
      * @param max 最大值
      * @return 校验结果 true:在范围内 false:不在范围内
      */
-    public  boolean isValidRange(Integer number, int min, int max) {
+    public static boolean isValidRange(Integer number, int min, int max) {
         if (number == null) {
             return false;
         }
@@ -104,7 +104,7 @@ public class ValidationUtil {
     }
 
     //添加评论参数校验
-    public  boolean isValidComment(String content) {
+    public static boolean isValidComment(String content) {
         if (!StringUtils.hasText(content)) {
             return false; // 评论不能为空
         }
@@ -126,7 +126,7 @@ public class ValidationUtil {
      * @param content 待检查内容
      * @return true:包含敏感词 false:不包含
      */
-    private  boolean containsSensitiveWords(String content) {
+    private static boolean containsSensitiveWords(String content) {
         if (content == null) {
             return false;
         }
@@ -149,7 +149,7 @@ public class ValidationUtil {
      * 获取敏感词列表(实际应用中建议从配置文件或数据库加载)
      * @return 敏感词数组
      */
-    public  String[] getSensitiveWords() {
+    public static String[] getSensitiveWords() {
         return new String[] {
                 "垃圾", "废物", "傻逼", "笨蛋", "蠢货", "白痴",
                 "fuck", "shit", "damn", "idiot", "stupid"
@@ -159,7 +159,7 @@ public class ValidationUtil {
 
 
     //添加帖子参数校验:
-    public  boolean isValidPostTitle(String title) {
+    public static boolean isValidPostTitle(String title) {
         if (!StringUtils.hasText(title)) {
             return false; // 标题不能为空
         }
@@ -171,7 +171,7 @@ public class ValidationUtil {
         }
         return true;
     }
-    public  boolean isValidPostSubtitle(String subtitle) {
+    public static boolean isValidPostSubtitle(String subtitle) {
         if (!StringUtils.hasText(subtitle)) {
             return false; // 副标题不能为空
         }
@@ -183,7 +183,7 @@ public class ValidationUtil {
         }
         return true;
     }
-    public  boolean isValidPostContent(String  content){
+    public static boolean isValidPostContent(String  content){
         if (!StringUtils.hasText(content)) {
             return false; // 内容不能为空
         }
@@ -192,7 +192,7 @@ public class ValidationUtil {
         }
         return true;
     }
-    public  boolean isValidPost(Post post){
+    public static boolean isValidPost(Post post){
         if(post==null){
             return false;
         }
@@ -202,13 +202,13 @@ public class ValidationUtil {
     }
 
     //校验User参数
-    public  boolean isValidAvatarUrl(String avatarUrl){
+    public static boolean isValidAvatarUrl(String avatarUrl){
         if(!avatarUrl.startsWith("http://")&&!avatarUrl.startsWith("https://")){
             return false;// 头像URL格式必须以http://或https://开头
         }
         return true;
     }
-    public  boolean isValidPassword(String password) {
+    public static boolean isValidPassword(String password) {
         if (!StringUtils.hasText(password)) {
             return false; // 密码不能为空
         }

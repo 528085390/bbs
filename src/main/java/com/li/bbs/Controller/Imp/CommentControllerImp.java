@@ -29,7 +29,6 @@ public class CommentControllerImp implements CommentController {
     @PostMapping("{postId}")
     @Override
     public Result addComment(@PathVariable Integer postId, @Valid @RequestBody Comment comment,@RequestHeader String token) throws SQLException {
-        ValidationUtil validationUtil = new ValidationUtil();
 
         //参数校验
         if(postId==null||postId<=0){
@@ -38,10 +37,10 @@ public class CommentControllerImp implements CommentController {
         if(comment==null){
             throw new IllegalArgumentException("评论内容不能为空...");
         }
-        if(!validationUtil.isValidComment(comment.getContent())){
+        if(!ValidationUtil.isValidComment(comment.getContent())){
             throw new IllegalArgumentException("评论内容不符合要求：包含敏感字符...");
         }
-       if(!validationUtil.isValidComment(comment.getContent())){
+       if(!ValidationUtil.isValidComment(comment.getContent())){
            return Result.error(Result.PARAM_ERROR,"评论内容不符合要求：不能为空、长度不超过200字、不能包含敏感字符...");
        }
 
