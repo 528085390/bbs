@@ -50,6 +50,7 @@ public class CommentControllerImp implements CommentController {
         return Result.success(Result.CREATED);
     }
 
+    @Override
     @GetMapping("{postId}")
     public Result<PageResult<Comment>> getComment(@PathVariable Integer postId,@RequestBody QueryParam queryParam) {
         //参数校验

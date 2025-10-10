@@ -7,6 +7,7 @@ import com.li.bbs.Pojo.User;
 import com.li.bbs.Pojo.UserResponse;
 import com.li.bbs.Service.AuthService;
 import com.li.bbs.util.JwtUtil;
+import com.li.bbs.util.ValidationUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,11 +25,17 @@ public class AuthControllerImp implements AuthController {
 
     @Autowired
     private AuthService authService;
-
+    ValidationUtil validationUtil = new ValidationUtil();
 
     @PostMapping("/register")
     @Override
     public Result register(@Valid @RequestBody User newUserInfo) {
+        if (!validationUtil.isValidUsername(newUserInfo.getUsername())){
+            return Result.error(Result.PARAM_ERROR,"用户名不符合要求：不能为空、用户名不能含有中文、长度必须在2到20之间...");
+        }
+        if(!validationUtil.isValidPassword(newUserInfo.getPassword())){
+            return Result.error(Result.PARAM_ERROR,"密码不符合要求：不能为空、长度必须在6到20之间...");
+        }
         authService.register(newUserInfo);
         return Result.success(CREATED);
     }
@@ -36,6 +43,12 @@ public class AuthControllerImp implements AuthController {
     @PostMapping("/login")
     @Override
     public Result<String> login(@RequestBody LoginRequest user) {
+        if (!validationUtil.isValidUsername(user.getUsername())){
+            return Result.error(Result.PARAM_ERROR,"用户名不符合要求：不能为空、用户名不能含有中文、长度必须在2到20之间...");
+        }
+        if(!validationUtil.isValidPassword(user.getPassword())){
+            return Result.error(Result.PARAM_ERROR,"密码不符合要求：不能为空、长度必须在6到20之间...");
+        }
         String token = authService.login(user);
         return Result.success(token);
     }

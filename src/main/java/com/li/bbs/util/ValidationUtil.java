@@ -1,11 +1,9 @@
 package com.li.bbs.util;
 
 import com.li.bbs.Pojo.Post;
-import com.li.bbs.Pojo.QueryParam;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-
 import java.util.regex.Pattern;
 
 /**
@@ -21,12 +19,15 @@ public class ValidationUtil {
 
     // 用户名正则表达式（字母、数字、下划线，2-20位）
     private  final String USERNAME_PATTERN = "^[a-zA-Z0-9_]{2,20}$";
+    // 密码正则表达式（字母、下划线、数字，6-20位，不能包含中文）
+    private final String PASSWORD_PATTERN = "^[a-zA-Z0-9_]{6,20}$";
 
     // 手机号正则表达式
     private  final String PHONE_PATTERN = "^1[3-9]\\d{9}$";
 
     private  final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
     private  final Pattern usernamePattern = Pattern.compile(USERNAME_PATTERN);
+    private  final Pattern passwordPattern = Pattern.compile(PASSWORD_PATTERN);
     private  final Pattern phonePattern = Pattern.compile(PHONE_PATTERN);
 
     /**
@@ -47,6 +48,7 @@ public class ValidationUtil {
      * @return 校验结果 true:格式正确 false:格式错误
      */
     public  boolean isValidUsername(String username) {
+
         if (!StringUtils.hasText(username)) {
             return false;
         }
@@ -208,17 +210,12 @@ public class ValidationUtil {
         }
         return true;
     }
-    public  boolean isValidPassword(String password) {
-        if (!StringUtils.hasText(password)) {
-            return false; // 密码不能为空
+    public  boolean isValidPassword(String email) {
+        // 密码长度应在6-20位之间,不能有中文
+        if (!StringUtils.hasText(email)) {
+            return passwordPattern.matcher(email).matches();
         }
-        // 密码长度应在6-20位之间
-        if (!isValidLength(password, 6, 20)) {
-            return false;
-        }
-
         return true;
     }
-
 }
 
