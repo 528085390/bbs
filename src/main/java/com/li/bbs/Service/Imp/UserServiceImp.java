@@ -83,7 +83,8 @@ public class UserServiceImp implements UserService {
     public void updateUserInfo(String token, User user) {
         user.setUpdatedTime(LocalDateTime.now());
         Integer userId = jwtUtil.extractUserId(token);
-        Integer res = userMapper.updateUserInfo(userId, user);
+        user.setId(userId);
+        Integer res = userMapper.updateUserInfo(user);
         if (res != 1){
             throw new RuntimeException("更新信息失败");
         }

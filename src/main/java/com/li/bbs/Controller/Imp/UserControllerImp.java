@@ -77,11 +77,11 @@ public class UserControllerImp implements UserController {
     @PostMapping("/updateInfo")
     @Override
     public Result updateUserInfo(@RequestHeader String token,@RequestBody User user) {
-
-        userService.updateUserInfo(token, user);
         if(!validationUtil.isValidEmail(user.getEmail())){
             return Result.error(Result.PARAM_ERROR,"用户邮箱格式不符合要求...");
         }
+        userService.updateUserInfo(token, user);
+
         log.info("更新用户信息成功");
         return Result.success(Result.NO_CONTENT);
     }

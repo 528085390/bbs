@@ -9,6 +9,7 @@ import com.li.bbs.Service.AuthService;
 import com.li.bbs.util.JwtUtil;
 import com.li.bbs.util.ValidationUtil;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ import static com.li.bbs.Pojo.Result.success;
 
 @RequestMapping("/auth")
 @RestController
+@Slf4j
 public class AuthControllerImp implements AuthController {
 
     @Autowired
@@ -39,6 +41,7 @@ public class AuthControllerImp implements AuthController {
             return Result.error(Result.PARAM_ERROR,"密码不符合要求：不能为空、长度必须在6到20之间...");
         }
         authService.register(newUserInfo);
+        log.info("用户注册成功");
         return Result.success(CREATED);
     }
 
@@ -52,6 +55,7 @@ public class AuthControllerImp implements AuthController {
             return Result.error(Result.PARAM_ERROR,"密码不符合要求：不能为空、长度必须在6到20之间...");
         }
         String token = authService.login(user);
+        log.info("用户登录成功");
         return Result.success(token);
     }
 
