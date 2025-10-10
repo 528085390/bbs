@@ -1,12 +1,9 @@
 package com.li.bbs.Service.Imp;
-
 import com.li.bbs.Exception.NoResourceFoundException;
 import com.li.bbs.Exception.ResourceDuplicateException;
 import com.li.bbs.Mapper.AuthMapper;
-import com.li.bbs.Mapper.UserMapper;
 import com.li.bbs.Pojo.LoginRequest;
 import com.li.bbs.Pojo.User;
-import com.li.bbs.Pojo.UserResponse;
 import com.li.bbs.Service.AuthService;
 import com.li.bbs.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +11,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.beans.Transient;
 import java.time.LocalDateTime;
 
 

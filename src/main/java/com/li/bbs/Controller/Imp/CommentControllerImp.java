@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @Slf4j
 @RequestMapping("/comment")
 @RestController
@@ -25,40 +26,42 @@ public class CommentControllerImp implements CommentController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    ValidationUtil validationUtil;
 
     @PostMapping("{postId}")
     @Override
-    public Result addComment(@PathVariable Integer postId, @Valid @RequestBody Comment comment,@RequestHeader String token) throws SQLException {
-        ValidationUtil validationUtil = new ValidationUtil();
+    public Result addComment(@PathVariable Integer postId, @RequestBody Comment comment, @RequestHeader String token) throws SQLException {
+
 
         //参数校验
-        if(postId==null||postId<=0){
+        if (postId == null || postId <= 0) {
             throw new IllegalArgumentException("帖子Id无效...");
         }
-        if(comment==null){
+        if (comment == null) {
             throw new IllegalArgumentException("评论内容不能为空...");
         }
-        if(!validationUtil.isValidComment(comment.getContent())){
+        if (!validationUtil.isValidComment(comment.getContent())) {
             throw new IllegalArgumentException("评论内容不符合要求：包含敏感字符...");
         }
-       if(!validationUtil.isValidComment(comment.getContent())){
-           return Result.error(Result.PARAM_ERROR,"评论内容不符合要求：不能为空、长度不超过200字、不能包含敏感字符...");
-       }
+        if (!validationUtil.isValidComment(comment.getContent())) {
+            return Result.error(Result.PARAM_ERROR, "评论内容不符合要求：不能为空、长度不超过200字、不能包含敏感字符...");
+        }
 
         commentService.addComment(postId, comment, token);
-        log.info("添加评论：{}",comment);
+        log.info("添加评论：{}", comment);
         return Result.success(Result.CREATED);
     }
 
     @Override
     @GetMapping("{postId}")
-    public Result<PageResult<Comment>> getComment(@PathVariable Integer postId,@RequestBody QueryParam queryParam) {
+    public Result<PageResult<Comment>> getComment(@PathVariable Integer postId, QueryParam queryParam) {
         //参数校验
-        if(postId==null||postId<=0){
+        if (postId == null || postId <= 0) {
             throw new IllegalArgumentException("帖子Id无效...");
         }
         PageResult<Comment> comments = commentService.findByPostId(postId, queryParam);
-        log.info("查询评论：{}",comments);
+        log.info("查询评论：{}", comments);
         return Result.success(comments);
     }
 
@@ -66,11 +69,11 @@ public class CommentControllerImp implements CommentController {
     @DeleteMapping
     public Result delete(@RequestParam(value = "id", required = false) Integer id) {
         //参数校验
-        if(id==null||id<=0){
+        if (id == null || id <= 0) {
             throw new IllegalArgumentException("评论Id无效...");
         }
         commentService.delete(id);
-        log.info("删除评论：{}",id);
+        log.info("删除评论：{}", id);
         return Result.success(Result.NO_CONTENT);
     }
 }

@@ -23,7 +23,7 @@ public class PostControllerImp implements PostController {
 
     @PostMapping
     @Override
-    public Result add(@Valid @RequestBody Post newPost, @RequestHeader String token) {
+    public Result add(@RequestBody Post newPost, @RequestHeader String token) {
         //校验帖子参数
         if (!validationUtil.isValidPost(newPost)) {
             return Result.error(Result.PARAM_ERROR, "帖子参数不符合要求：标题、副标题或内容格式不正确");

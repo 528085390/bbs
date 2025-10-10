@@ -20,6 +20,9 @@ public class UserControllerImp implements UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+     ValidationUtil validationUtil;
+
     @GetMapping("/me")
     @Override
     public Result<UserResponse> getInfo(@RequestHeader String token) {
@@ -30,7 +33,7 @@ public class UserControllerImp implements UserController {
 
     @GetMapping("/favourites")
     @Override
-    public Result<PageResult<Post>> getFavourites(@RequestHeader String token,@RequestBody QueryParam queryParam) {
+    public Result<PageResult<Post>> getFavourites(@RequestHeader String token,QueryParam queryParam) {
 
         PageResult<Post> favourites = userService.getFavourites(token,queryParam);
         log.info("获取用户收藏：{}",favourites);
@@ -63,7 +66,7 @@ public class UserControllerImp implements UserController {
 
     @GetMapping("/posts")
     @Override
-    public Result<PageResult<Post>> getMyPosts(@RequestHeader String token,@RequestBody QueryParam queryParam) {
+    public Result<PageResult<Post>> getMyPosts(@RequestHeader String token,QueryParam queryParam) {
         PageResult<Post> myPosts = userService.getMyPosts(token, queryParam);
         log.info("获取用户帖子：{}",myPosts);
         return Result.success(myPosts);
@@ -74,17 +77,10 @@ public class UserControllerImp implements UserController {
     @PostMapping("/updateInfo")
     @Override
     public Result updateUserInfo(@RequestHeader String token,@RequestBody User user) {
-        ValidationUtil validationUtil = new ValidationUtil();
+
         userService.updateUserInfo(token, user);
-        // 校验参数
         if(!validationUtil.isValidEmail(user.getEmail())){
             return Result.error(Result.PARAM_ERROR,"用户邮箱格式不符合要求...");
-        }
-        if(!validationUtil.isValidUsername(user.getUsername())){
-            return Result.error(Result.PARAM_ERROR,"用户名长度必须在2到20之间...");
-        }
-        if(!validationUtil.isValidPassword(user.getPassword())){
-            return Result.error(Result.PARAM_ERROR,"密码长度应在6-20位之间...");
         }
         log.info("更新用户信息成功");
         return Result.success(Result.NO_CONTENT);

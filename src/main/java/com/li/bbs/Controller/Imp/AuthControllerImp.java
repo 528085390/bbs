@@ -25,11 +25,13 @@ public class AuthControllerImp implements AuthController {
 
     @Autowired
     private AuthService authService;
-    ValidationUtil validationUtil = new ValidationUtil();
+
+    @Autowired
+    ValidationUtil validationUtil;
 
     @PostMapping("/register")
     @Override
-    public Result register(@Valid @RequestBody User newUserInfo) {
+    public Result register(@RequestBody User newUserInfo) {
         if (!validationUtil.isValidUsername(newUserInfo.getUsername())){
             return Result.error(Result.PARAM_ERROR,"用户名不符合要求：不能为空、用户名不能含有中文、长度必须在2到20之间...");
         }
