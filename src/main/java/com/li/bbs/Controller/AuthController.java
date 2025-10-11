@@ -12,5 +12,5 @@ public interface AuthController {
 
     public Result<Integer> register(User newUserInfo);
     public Result<String> login(LoginRequest loginUser);
-    public Result logout(User newUserInfo, String token);
+    public Result logout(String token);
 }

@@ -54,10 +54,13 @@ public class AuthControllerImp implements AuthController {
 
     @PostMapping("/logout")
     @Override
-    public Result logout(@RequestBody User newUserInfo,@RequestHeader String token) {
-        authService.logout(newUserInfo, token);
+    public Result logout(@RequestHeader String token) {
+        if (token==null|| token.isEmpty()){
+            return Result.error(FORBIDDEN,"用户未登录...");
+        }
+        authService.logout(token);
         log.info("用户成功登出");
-        return Result.success(token);
+        return Result.success(SUCCESS);
 
     }
 

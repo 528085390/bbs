@@ -9,5 +9,5 @@ public interface AuthService {
 
     void updateTime(Integer userId);
 
-    void logout(User newUserInfo, String token);
+    void logout(String token);
 }
