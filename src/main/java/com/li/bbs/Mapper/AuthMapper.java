@@ -21,4 +21,10 @@ public interface AuthMapper {
 
     @Update("update user set updated_time=#{now} where id=#{userId}")
     void updateTime(LocalDateTime now, Integer userId);
+
+    @Select("select * from user where email=#{email}")
+    public User findByEmail(String email);
+
+    @Update("update user set password=#{newPassword} where id=#{userId}")
+    void updatePassword(User newUserPassword);
 }

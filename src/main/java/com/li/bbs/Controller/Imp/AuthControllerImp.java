@@ -4,11 +4,8 @@ import com.li.bbs.Controller.AuthController;
 import com.li.bbs.Pojo.LoginRequest;
 import com.li.bbs.Pojo.Result;
 import com.li.bbs.Pojo.User;
-import com.li.bbs.Pojo.UserResponse;
 import com.li.bbs.Service.AuthService;
-import com.li.bbs.util.JwtUtil;
 import com.li.bbs.util.ValidationUtil;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.li.bbs.Pojo.Result.CREATED;
-import static com.li.bbs.Pojo.Result.success;
+import static com.li.bbs.Pojo.Result.*;
 
 
 @RequestMapping("/auth")
@@ -59,4 +55,21 @@ public class AuthControllerImp implements AuthController {
         return Result.success(token);
     }
 
+    @PostMapping("/logout")
+    @Override
+    public Result logout(@RequestBody User newUserInfo) {
+        log.info("用户成功登出");
+        authService.logout(newUserInfo);
+        return Result.success(SUCCESS);
+    }
+    @PostMapping("/updatepassword")
+    @Override
+    public Result updatepassword(@RequestBody User newUserInfo) {
+        if(!validationUtil.isValidEmail(newUserInfo.getEmail())){
+            return Result.error(Result.PARAM_ERROR,"用户邮箱格式不符合要求...");
+        }
+        authService.updatePassword(newUserInfo);
+        log.info("用户修改密码成功");
+        return Result.success(SUCCESS);
+    }
 }

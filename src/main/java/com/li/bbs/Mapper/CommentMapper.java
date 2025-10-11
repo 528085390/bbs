@@ -19,4 +19,6 @@ public interface CommentMapper {
 
     @Delete("delete from comment where id=#{id}")
     void delete(Integer id);
+
+
 }

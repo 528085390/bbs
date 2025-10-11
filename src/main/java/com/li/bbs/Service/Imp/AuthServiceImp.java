@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 
 @Service
 public class AuthServiceImp implements AuthService {
-
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -56,5 +55,22 @@ public class AuthServiceImp implements AuthService {
         authMapper.updateTime(LocalDateTime.now(), userId);
     }
 
+    @Override
+    public void logout(User newUserInfo) {
+        authMapper.updateTime(LocalDateTime.now(), newUserInfo.getId());
+    }
+
+    @Override
+    public void updatePassword(User newUserPassword){
+        User existingUserEmail=authMapper.findByEmail(newUserPassword.getEmail());
+        if (existingUserEmail==null){
+            throw new NoResourceFoundException("用户邮箱错误");
+        }
+
+        String encodedPassword = new BCryptPasswordEncoder().encode(newUserPassword.getPassword());
+        newUserPassword.setPassword(encodedPassword);
+        newUserPassword.setUpdatedTime(LocalDateTime.now());
+        authMapper.updatePassword(newUserPassword);
+    }
 
 }

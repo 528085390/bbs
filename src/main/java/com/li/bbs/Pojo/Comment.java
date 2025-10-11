@@ -17,5 +17,4 @@ public class Comment {
     private Integer userId;
     private String content;
     private LocalDateTime createdTime;
-
 }
