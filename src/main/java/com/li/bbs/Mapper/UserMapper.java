@@ -40,4 +40,10 @@ public interface UserMapper {
 
     @Update("update user set avatar_url = #{avatarUrl} where id = #{userId}")
     Integer updateUserAvatar(Integer userId, String avatarUrl);
+
+    @Select("select * from user where email=#{email}")
+    public User findByEmail(String email);
+
+    @Update("update user set password=#{newPassword} where id=#{userId}")
+    void updatePassword(User newUserPassword);
 }

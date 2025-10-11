@@ -11,5 +11,4 @@ public interface AuthService {
 
     void logout(User newUserInfo);
 
-    public void updatePassword(User newUserpassword);
 }

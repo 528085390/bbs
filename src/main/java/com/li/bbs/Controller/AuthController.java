@@ -13,5 +13,5 @@ public interface AuthController {
     public Result<String> login(LoginRequest loginUser);
 
     public Result logout(User newUserInfo);
-    public Result updatepassword(User newUserInfo);
+
 }

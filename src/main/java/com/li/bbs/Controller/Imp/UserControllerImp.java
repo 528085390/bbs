@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+
+import static com.li.bbs.Pojo.Result.SUCCESS;
+
 @Slf4j
 @RequestMapping("/user")
 @RestController
@@ -94,5 +97,15 @@ public class UserControllerImp implements UserController {
         return Result.success(url);
     }
 
+    @PostMapping("/updatepassword")
+    @Override
+    public Result updatepassword(@RequestBody User newUserInfo) {
+        if(!validationUtil.isValidEmail(newUserInfo.getEmail())){
+            return Result.error(Result.PARAM_ERROR,"用户邮箱格式不符合要求...");
+        }
+        userService.updatePassword(newUserInfo);
+        log.info("用户修改密码成功");
+        return Result.success(SUCCESS);
+    }
 
 }

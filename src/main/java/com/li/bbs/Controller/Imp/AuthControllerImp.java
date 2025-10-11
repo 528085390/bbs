@@ -62,14 +62,5 @@ public class AuthControllerImp implements AuthController {
         authService.logout(newUserInfo);
         return Result.success(SUCCESS);
     }
-    @PostMapping("/updatepassword")
-    @Override
-    public Result updatepassword(@RequestBody User newUserInfo) {
-        if(!validationUtil.isValidEmail(newUserInfo.getEmail())){
-            return Result.error(Result.PARAM_ERROR,"用户邮箱格式不符合要求...");
-        }
-        authService.updatePassword(newUserInfo);
-        log.info("用户修改密码成功");
-        return Result.success(SUCCESS);
-    }
+
 }

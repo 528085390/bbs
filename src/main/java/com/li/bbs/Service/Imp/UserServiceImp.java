@@ -12,6 +12,7 @@ import com.li.bbs.util.JwtUtil;
 import com.li.bbs.util.OssUtil;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -100,5 +101,17 @@ public class UserServiceImp implements UserService {
         return avatarUrl;
     }
 
+    @Override
+    public void updatePassword(User newUserPassword){
+        User existingUserEmail=userMapper.findByEmail(newUserPassword.getEmail());
+        if (existingUserEmail==null){
+            throw new NoResourceFoundException("用户邮箱错误");
+        }
+
+        String encodedPassword = new BCryptPasswordEncoder().encode(newUserPassword.getPassword());
+        newUserPassword.setPassword(encodedPassword);
+        newUserPassword.setUpdatedTime(LocalDateTime.now());
+        userMapper.updatePassword(newUserPassword);
+    }
 
 }
