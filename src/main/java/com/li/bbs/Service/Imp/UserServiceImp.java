@@ -12,6 +12,7 @@ import com.li.bbs.util.JwtUtil;
 import com.li.bbs.util.OssUtil;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -102,10 +103,14 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void updatePassword(User newUserPassword){
+    public void updatePassword(User newUserPassword,String token){
         User existingUserEmail=userMapper.findByEmail(newUserPassword.getEmail());
+        Integer userId = jwtUtil.extractUserId(token);
         if (existingUserEmail==null){
             throw new NoResourceFoundException("用户邮箱错误");
+        }
+        if (!jwtUtil.validateToken(token, userMapper.findById(userId).getId())){
+            throw new BadCredentialsException("用户权限错误");
         }
 
         String encodedPassword = new BCryptPasswordEncoder().encode(newUserPassword.getPassword());

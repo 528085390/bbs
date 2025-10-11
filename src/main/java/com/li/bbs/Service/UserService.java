@@ -22,5 +22,5 @@ public interface UserService {
 
     String updateUserAvatar(String token, MultipartFile file) throws ClientException;
 
-    public void updatePassword(User newUserpassword);
+    public void updatePassword(User newUserpassword,String token);
 }

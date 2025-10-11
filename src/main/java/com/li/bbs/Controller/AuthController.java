@@ -6,12 +6,11 @@ import com.li.bbs.Pojo.User;
 import com.li.bbs.Pojo.UserResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 public interface AuthController {
 
     public Result<Integer> register(User newUserInfo);
     public Result<String> login(LoginRequest loginUser);
-
-    public Result logout(User newUserInfo);
-
+    public Result logout(User newUserInfo, String token);
 }

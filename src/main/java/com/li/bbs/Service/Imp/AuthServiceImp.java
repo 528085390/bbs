@@ -56,7 +56,10 @@ public class AuthServiceImp implements AuthService {
     }
 
     @Override
-    public void logout(User newUserInfo) {
+    public void logout(User newUserInfo, String token) {
+        if (!jwtUtil.validateToken(token, newUserInfo.getId())){
+            throw new BadCredentialsException("token码错误");
+        }
         authMapper.updateTime(LocalDateTime.now(), newUserInfo.getId());
     }
 

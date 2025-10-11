@@ -8,10 +8,7 @@ import com.li.bbs.Service.AuthService;
 import com.li.bbs.util.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.li.bbs.Pojo.Result.*;
 
@@ -57,10 +54,11 @@ public class AuthControllerImp implements AuthController {
 
     @PostMapping("/logout")
     @Override
-    public Result logout(@RequestBody User newUserInfo) {
+    public Result logout(@RequestBody User newUserInfo,@RequestHeader String token) {
+        authService.logout(newUserInfo, token);
         log.info("用户成功登出");
-        authService.logout(newUserInfo);
-        return Result.success(SUCCESS);
+        return Result.success(token);
+
     }
 
 }
