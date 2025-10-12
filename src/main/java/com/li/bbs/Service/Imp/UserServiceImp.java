@@ -15,11 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -112,14 +114,16 @@ public class UserServiceImp implements UserService {
         if (!userId.equals(existingUserEmail.getId())){
             throw new BadCredentialsException("用户权限错误");
         }
-
+        String oldPassword = existingUserEmail.getPassword();
         String encodedPassword = new BCryptPasswordEncoder().encode(newUserPassword.getPassword());
+        newUserPassword.setId(userId);
         newUserPassword.setPassword(encodedPassword);
         newUserPassword.setUpdatedTime(LocalDateTime.now());
-        Integer res = userMapper.updatePassword(newUserPassword);
-        if (res != 1){
-            throw new RuntimeException("更新密码失败");
+        if(new BCryptPasswordEncoder().matches(oldPassword,encodedPassword)){
+            throw new RuntimeException("新密码不能与旧密码相同");
         }
+        userMapper.updatePassword(newUserPassword);
+
     }
 
 }
