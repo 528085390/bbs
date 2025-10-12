@@ -51,7 +51,7 @@ public class UserControllerImp implements UserController {
         if(postId==null||postId<=0){
             throw new IllegalArgumentException("添加的收藏帖子Id无效...");
         }
-        log.info("添加收藏成功");
+        log.info("贴子：{}添加收藏成功",postId);
         return Result.success(Result.CREATED);
     }
 
@@ -63,7 +63,7 @@ public class UserControllerImp implements UserController {
         if (postId == null || postId <= 0) {
             return Result.error(Result.PARAM_ERROR, "删除的帖子ID无效");
         }
-        log.info("删除收藏成功");
+        log.info("删除帖子（{}）收藏成功", postId);
         return Result.success(Result.NO_CONTENT);
     }
 
@@ -85,7 +85,7 @@ public class UserControllerImp implements UserController {
         }
         userService.updateUserInfo(token, user);
 
-        log.info("更新用户信息成功");
+        log.info("更新用户信息成功：{}", user);
         return Result.success(Result.NO_CONTENT);
     }
 
@@ -99,12 +99,12 @@ public class UserControllerImp implements UserController {
 
     @PostMapping("/updatepassword")
     @Override
-    public Result updatepassword(@RequestBody User newUserInfo,@RequestHeader String token) {
+    public Result updatePassword(@RequestBody User newUserInfo,@RequestHeader String token) {
         if(!validationUtil.isValidEmail(newUserInfo.getEmail())){
             return Result.error(Result.PARAM_ERROR,"用户邮箱格式不符合要求...");
         }
         userService.updatePassword(newUserInfo, token);
-        log.info("用户修改密码成功");
+        log.info("用户({})修改密码({})成功",newUserInfo.getUsername(),newUserInfo.getPassword());
         return Result.success(SUCCESS);
     }
 
