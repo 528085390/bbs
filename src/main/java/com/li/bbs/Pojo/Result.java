@@ -15,7 +15,7 @@ public class Result<T> {
     public static final Integer SUCCESS = 200;
     /** 创建成功响应码 */
     public static final Integer CREATED = 201;
-    /** 操作成功响应码 */
+    /** 操作（更新，删除）成功且无返回体响应码 */
     public static final Integer NO_CONTENT = 204;
     /** 参数错误响应码 */
     public static final Integer PARAM_ERROR = 400;

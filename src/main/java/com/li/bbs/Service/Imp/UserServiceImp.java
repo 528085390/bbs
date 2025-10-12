@@ -80,7 +80,7 @@ public class UserServiceImp implements UserService {
 
     }
 
-    @SneakyThrows
+
     @Override
     public void updateUserInfo(String token, User user) {
         user.setUpdatedTime(LocalDateTime.now());
@@ -109,14 +109,17 @@ public class UserServiceImp implements UserService {
         if (existingUserEmail==null){
             throw new NoResourceFoundException("用户邮箱错误");
         }
-        if (!jwtUtil.validateToken(token, userMapper.findById(userId).getId())){
+        if (!userId.equals(existingUserEmail.getId())){
             throw new BadCredentialsException("用户权限错误");
         }
 
         String encodedPassword = new BCryptPasswordEncoder().encode(newUserPassword.getPassword());
         newUserPassword.setPassword(encodedPassword);
         newUserPassword.setUpdatedTime(LocalDateTime.now());
-        userMapper.updatePassword(newUserPassword);
+        Integer res = userMapper.updatePassword(newUserPassword);
+        if (res != 1){
+            throw new RuntimeException("更新密码失败");
+        }
     }
 
 }

@@ -19,7 +19,7 @@ import static com.li.bbs.Pojo.Result.*;
 public class AuthControllerImp implements AuthController {
 
     @Autowired
-    private AuthService authService;
+    AuthService authService;
 
     @Autowired
     ValidationUtil validationUtil;

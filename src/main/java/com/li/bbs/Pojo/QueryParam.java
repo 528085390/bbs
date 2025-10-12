@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class QueryParam {
     private Integer page = 1;
-    private Integer pageSize = 10;
+    private Integer pageSize = 1000000000;
 
     private String title;
     private Integer userId;

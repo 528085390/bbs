@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 
+import static com.li.bbs.Pojo.Result.NO_CONTENT;
 import static com.li.bbs.Pojo.Result.SUCCESS;
 
 @Slf4j
@@ -21,7 +22,7 @@ import static com.li.bbs.Pojo.Result.SUCCESS;
 public class UserControllerImp implements UserController {
 
     @Autowired
-    private UserService userService;
+    UserService userService;
 
     @Autowired
      ValidationUtil validationUtil;
@@ -76,7 +77,6 @@ public class UserControllerImp implements UserController {
 
     }
 
-    @SneakyThrows
     @PostMapping("/updateInfo")
     @Override
     public Result updateUserInfo(@RequestHeader String token,@RequestBody User user) {
@@ -97,7 +97,7 @@ public class UserControllerImp implements UserController {
         return Result.success(url);
     }
 
-    @PostMapping("/updatepassword")
+    @PostMapping("/updatePassword")
     @Override
     public Result updatePassword(@RequestBody User newUserInfo,@RequestHeader String token) {
         if(!validationUtil.isValidEmail(newUserInfo.getEmail())){
@@ -105,7 +105,7 @@ public class UserControllerImp implements UserController {
         }
         userService.updatePassword(newUserInfo, token);
         log.info("用户({})修改密码({})成功",newUserInfo.getUsername(),newUserInfo.getPassword());
-        return Result.success(SUCCESS);
+        return Result.success(NO_CONTENT);
     }
 
 }

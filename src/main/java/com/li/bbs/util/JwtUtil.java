@@ -19,7 +19,7 @@ public class JwtUtil {
     private final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
     // 2. 定义Token的过期时间 (例如：1小时，单位是毫秒)
-    private final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
+    private final long EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7; // 1 hour
 
     // --- 生成Token的方法 ---
     public String generateToken(String username, Integer userId) {

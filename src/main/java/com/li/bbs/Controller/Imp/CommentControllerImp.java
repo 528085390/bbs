@@ -24,7 +24,7 @@ import java.util.Map;
 @RestController
 public class CommentControllerImp implements CommentController {
     @Autowired
-    private CommentService commentService;
+    CommentService commentService;
 
     @Autowired
     ValidationUtil validationUtil;
@@ -66,6 +66,7 @@ public class CommentControllerImp implements CommentController {
     }
 
 
+    @Override
     @DeleteMapping
     public Result delete(@RequestParam(value = "id", required = false) Integer id) {
         //参数校验
