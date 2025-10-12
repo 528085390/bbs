@@ -44,6 +44,6 @@ public interface UserMapper {
     @Select("select * from user where email=#{email}")
     User findByEmail(String email);
 
-    @Update("update user set password=#{password} where id=#{userId}")
+    @Update("update user set password=#{password} where id=#{id}")
     Integer updatePassword(User newUserPassword);
 }
