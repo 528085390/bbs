@@ -17,6 +17,7 @@ public interface AuthMapper {
 
     @Select("select * from user where username=#{username}")
     public User findByUsername(String username);
+
     @Select("select * from user where email=#{email}")
     public User findByEmail(String email);
 

@@ -5,6 +5,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.li.bbs.Exception.NoResourceFoundException;
+import com.li.bbs.Exception.ResourceDuplicateException;
 import com.li.bbs.Mapper.UserMapper;
 import com.li.bbs.Pojo.*;
 import com.li.bbs.Service.UserService;
@@ -85,6 +86,9 @@ public class UserServiceImp implements UserService {
 
     @Override
     public void updateUserInfo(String token, User user) {
+        if(userMapper.findByEmail(user.getEmail()) != null){
+            throw new ResourceDuplicateException("邮箱已被注册");
+        }
         user.setUpdatedTime(LocalDateTime.now());
         Integer userId = jwtUtil.extractUserId(token);
         user.setId(userId);
