@@ -12,11 +12,13 @@ import java.time.LocalDateTime;
 @Mapper
 public interface AuthMapper {
 
-    @Insert("insert into user(username,password,created_time,updated_time) values(#{username},#{password},#{createdTime},#{updatedTime})")
+    @Insert("insert into user(username,password,email,created_time,updated_time) values(#{username},#{password},#{email},#{createdTime},#{updatedTime})")
     public void addUser(User newUserInfo);
 
     @Select("select * from user where username=#{username}")
     public User findByUsername(String username);
+    @Select("select * from user where email=#{email}")
+    public User findByEmail(String email);
 
 
     @Update("update user set updated_time=#{now} where id=#{userId}")

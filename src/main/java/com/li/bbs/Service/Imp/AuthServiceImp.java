@@ -28,8 +28,12 @@ public class AuthServiceImp implements AuthService {
         if (authMapper.findByUsername(newUserInfo.getUsername()) != null){
             throw new ResourceDuplicateException("用户名已存在");
         }
+        if(authMapper.findByEmail(newUserInfo.getEmail())!= null){
+            throw new ResourceDuplicateException("邮箱已存在");
+        }
         String encodedPassword = new BCryptPasswordEncoder().encode(newUserInfo.getPassword());
         newUserInfo.setPassword(encodedPassword);
+        newUserInfo.setEmail(newUserInfo.getEmail());
         newUserInfo.setCreatedTime(LocalDateTime.now());
         newUserInfo.setUpdatedTime(LocalDateTime.now());
         authMapper.addUser(newUserInfo);
