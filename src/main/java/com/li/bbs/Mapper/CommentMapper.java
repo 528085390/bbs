@@ -12,7 +12,6 @@ import java.util.List;
 @Mapper
 
 public interface CommentMapper {
-
     List<CommentResponse> findByPostId(Integer postId);
 
     @Insert("insert into comment(post_id,user_id,content,created_time) values(#{postId},#{userId},#{content},#{createdTime})")
@@ -20,6 +19,5 @@ public interface CommentMapper {
 
     @Delete("delete from comment where id=#{id}")
     void delete(Integer id);
-
 
 }

@@ -30,6 +30,7 @@ public class UserControllerImp implements UserController {
     @GetMapping("/me")
     @Override
     public Result<UserResponse> getInfo(@RequestHeader String token) {
+        log.info("正在获取用户信息...");
         UserResponse userInfo = userService.getInfo(token);
         log.info("获取用户信息：{}",userInfo);
         return Result.success(userInfo);
@@ -38,7 +39,7 @@ public class UserControllerImp implements UserController {
     @GetMapping("/favourites")
     @Override
     public Result<PageResult<Post>> getFavourites(@RequestHeader String token,QueryParam queryParam) {
-
+        log.info("正在获取用户收藏...");
         PageResult<Post> favourites = userService.getFavourites(token,queryParam);
         log.info("获取用户收藏：{}",favourites);
         return Result.success(favourites);
@@ -47,6 +48,7 @@ public class UserControllerImp implements UserController {
     @PostMapping("/favourite")
     @Override
     public Result addFavourite(@RequestHeader String token, Integer postId) {
+        log.info("正在添加收藏...");
         userService.addFavourite(token, postId);
         //校验postId参数
         if(postId==null||postId<=0){
@@ -59,6 +61,7 @@ public class UserControllerImp implements UserController {
     @DeleteMapping("/favourite")
     @Override
     public Result removeFavourite(@RequestHeader String token, Integer postId) {
+        log.info("正在删除收藏...");
         userService.removeFavourite(token, postId);
         // 校验postId参数
         if (postId == null || postId <= 0) {
@@ -71,6 +74,7 @@ public class UserControllerImp implements UserController {
     @GetMapping("/posts")
     @Override
     public Result<PageResult<Post>> getMyPosts(@RequestHeader String token,QueryParam queryParam) {
+        log.info("正在获取用户帖子...");
         PageResult<Post> myPosts = userService.getMyPosts(token, queryParam);
         log.info("获取用户帖子：{}",myPosts);
         return Result.success(myPosts);
@@ -80,6 +84,7 @@ public class UserControllerImp implements UserController {
     @PostMapping("/updateInfo")
     @Override
     public Result updateUserInfo(@RequestHeader String token,@RequestBody User user) {
+        log.info("正在更新用户信息...");
         if(!validationUtil.isValidEmail(user.getEmail())){
             return Result.error(Result.PARAM_ERROR,"用户邮箱格式不符合要求...");
         }
@@ -92,6 +97,7 @@ public class UserControllerImp implements UserController {
     @PostMapping("/updateAvatar")
     @Override
     public Result<String> updateUserAvatar(@RequestHeader String token, MultipartFile file) throws ClientException {
+        log.info("正在更新用户头像...");
         String url = userService.updateUserAvatar(token, file);
         log.info("更新用户头像成功：{}",url);
         return Result.success(url);
@@ -100,6 +106,7 @@ public class UserControllerImp implements UserController {
     @PostMapping("/updatePassword")
     @Override
     public Result updatePassword(@RequestBody User newUserInfo,@RequestHeader String token) {
+        log.info("正在修改密码...");
         if(!validationUtil.isValidEmail(newUserInfo.getEmail())){
             return Result.error(Result.PARAM_ERROR,"用户邮箱格式不符合要求...");
         }

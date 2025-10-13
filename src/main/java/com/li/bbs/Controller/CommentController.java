@@ -7,6 +7,6 @@ import java.sql.SQLException;
 
 public interface CommentController {
     Result addComment(Integer postId,Comment comment, String token) throws SQLException;
-    Result<PageResult<CommentResponse>> getComment(Integer postId, QueryParam queryParam);
+    Result<PageResult<CommentResponse>> getComment(Integer postId);
     Result delete(Integer id);
 }
