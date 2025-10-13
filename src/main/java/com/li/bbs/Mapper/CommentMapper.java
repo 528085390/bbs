@@ -1,6 +1,7 @@
 package com.li.bbs.Mapper;
 
 import com.li.bbs.Pojo.Comment;
+import com.li.bbs.Pojo.CommentResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public interface CommentMapper {
 
-    List<Comment> findByPostId(Integer postId);
+    List<CommentResponse> findByPostId(Integer postId);
 
     @Insert("insert into comment(post_id,user_id,content,created_time) values(#{postId},#{userId},#{content},#{createdTime})")
     Integer addComment(Comment comment);

@@ -4,15 +4,13 @@ import com.li.bbs.Controller.PostController;
 import com.li.bbs.Pojo.*;
 import com.li.bbs.Service.PostService;
 import com.li.bbs.util.ValidationUtil;
-import jakarta.validation.Valid;
-import jakarta.validation.Validation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/post")
 public class PostControllerImp implements PostController {
 
     @Autowired
@@ -37,20 +35,20 @@ public class PostControllerImp implements PostController {
 
     @GetMapping
     @Override
-    public Result<PageResult<Post>> page(QueryParam queryParam){
-        PageResult<Post> pageResult= postService.page(queryParam);
+    public Result<PageResult<PostResponse>> page(QueryParam queryParam){
+        PageResult<PostResponse> pageResult = postService.page(queryParam);
         log.info("分页查询帖子：{}",queryParam);
         return Result.success(pageResult);
     }
 
     @GetMapping("/{id}")
     @Override
-    public Result<Post> findById(@PathVariable Integer id) {
+    public Result<PostResponse> findById(@PathVariable Integer id) {
         //校验帖子id
         if (id == null) {
             return Result.error(Result.PARAM_ERROR, "帖子id不能为空");
         }
-        Post postById = postService.findById(id);
+        PostResponse postById = postService.findById(id);
         log.info("查询帖子：{}",id);
         return Result.success(postById);
     }

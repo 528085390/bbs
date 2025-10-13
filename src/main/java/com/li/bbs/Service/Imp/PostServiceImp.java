@@ -5,9 +5,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.li.bbs.Exception.NoResourceFoundException;
 import com.li.bbs.Mapper.PostMapper;
-import com.li.bbs.Pojo.QueryParam;
-import com.li.bbs.Pojo.PageResult;
-import com.li.bbs.Pojo.Post;
+import com.li.bbs.Mapper.UserMapper;
+import com.li.bbs.Pojo.*;
 import com.li.bbs.Service.PostService;
 import com.li.bbs.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +26,9 @@ public class PostServiceImp implements PostService {
     @Autowired
     private PostMapper postMapper;
 
+    @Autowired
+    UserMapper userMapper;
+
     @Override
     public void add(Post newPost, String token) {
         Integer userId = jwtUtil.extractUserId(token);
@@ -40,33 +42,44 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    public PageResult<Post> page(QueryParam queryParam) {
-        Page<Post> p = PageHelper.startPage(queryParam.getPage(), queryParam.getPageSize());
-        List<Post> posts = postMapper.list(queryParam);
-        return new PageResult<>(p.getTotal(), posts);
+    public PageResult<PostResponse> page(QueryParam queryParam) {
+        Page<Post> page = PageHelper.startPage(queryParam.getPage(), queryParam.getPageSize());
+        List<PostResponse> posts = postMapper.list(queryParam);
+        for (PostResponse p : posts){
+            Integer userId = p.getUserId();
+            UserResponse user = userMapper.findById(userId);
+            p.setUsername(user.getUsername());
+            p.setAvatarUrl(user.getAvatarUrl());
+            p.setUserId(user.getId());
+        }
+
+        return new PageResult<>(page.getTotal(), posts);
 
     }
 
     @Transactional
     @Override
-    public Post findById(Integer id) {
-        Post post = postMapper.findById(id);
+    public PostResponse findById(Integer id) {
+        PostResponse post = postMapper.findById(id);
         if (post == null){
             throw new NoResourceFoundException("没有此帖子");
         }
+        UserResponse author = userMapper.findById(post.getUserId());
+        post.setUsername(author.getUsername());
+        post.setAvatarUrl(author.getAvatarUrl());
+        post.setUserId(author.getId());
         postMapper.incrementViewsCount(id);
         return post;
     }
 
     @Override
-    public Post update(Post post,Integer id,String token) {
+    public void update(Post post, Integer id, String token) {
         Integer userId = jwtUtil.extractUserId(token);
         if (!postMapper.findById(id).getUserId().equals(userId)) {
             throw new BadCredentialsException("没有权限");
         }
         post.setUpdatedTime(LocalDateTime.now());
         postMapper.update(post);
-        return postMapper.findById(id);
     }
 
     @Transactional

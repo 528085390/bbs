@@ -3,9 +3,8 @@ package com.li.bbs.Service.Imp;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.li.bbs.Mapper.CommentMapper;
-import com.li.bbs.Pojo.Comment;
-import com.li.bbs.Pojo.PageResult;
-import com.li.bbs.Pojo.QueryParam;
+import com.li.bbs.Mapper.UserMapper;
+import com.li.bbs.Pojo.*;
 import com.li.bbs.Service.CommentService;
 import com.li.bbs.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +23,19 @@ public class CommentServiceImp implements CommentService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    UserMapper userMapper;
+
 
     @Override
-    public PageResult<Comment> findByPostId(Integer postId, QueryParam queryParam) {
-        Page<Comment> p = PageHelper.startPage(queryParam.getPage(), queryParam.getPageSize());
-        List<Comment> comments = commentMapper.findByPostId(postId);
+    public PageResult<CommentResponse> findByPostId(Integer postId, QueryParam queryParam) {
+        Page<CommentResponse> p = PageHelper.startPage(queryParam.getPage(), queryParam.getPageSize());
+        List<CommentResponse> comments = commentMapper.findByPostId(postId);
+        for(CommentResponse c : comments){
+            UserResponse author = userMapper.findById(c.getUserId());
+            c.setUsername(author.getUsername());
+            c.setAvatarUrl(author.getAvatarUrl());
+        }
         return new PageResult<>(p.getTotal(), comments);
     }
 

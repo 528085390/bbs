@@ -1,5 +1,6 @@
 package com.li.bbs.Service;
 
+import com.li.bbs.Pojo.PostResponse;
 import com.li.bbs.Pojo.QueryParam;
 import com.li.bbs.Pojo.PageResult;
 import com.li.bbs.Pojo.Post;
@@ -9,11 +10,11 @@ public interface PostService {
 
     void add(Post newPost, String token);
 
-    public PageResult<Post> page(QueryParam queryParam);
+    public PageResult<PostResponse> page(QueryParam queryParam);
 
-     public Post findById(Integer id);
+     public PostResponse findById(Integer id);
 
-     public Post update(Post post, Integer Id, String token) ;
+     public void update(Post post, Integer Id, String token) ;
 
      public void delete(Integer id, String token);
 

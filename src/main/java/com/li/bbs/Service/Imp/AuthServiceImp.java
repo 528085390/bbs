@@ -33,7 +33,6 @@ public class AuthServiceImp implements AuthService {
         }
         String encodedPassword = new BCryptPasswordEncoder().encode(newUserInfo.getPassword());
         newUserInfo.setPassword(encodedPassword);
-        newUserInfo.setEmail(newUserInfo.getEmail());
         newUserInfo.setCreatedTime(LocalDateTime.now());
         newUserInfo.setUpdatedTime(LocalDateTime.now());
         authMapper.addUser(newUserInfo);
@@ -41,12 +40,12 @@ public class AuthServiceImp implements AuthService {
 
     @Transactional
     @Override
-    public String login(LoginRequest LoginUser) {
-        User user = authMapper.findByUsername(LoginUser.getUsername());
+    public String login(LoginRequest loginUser) {
+        User user = authMapper.findByUsername(loginUser.getUsername());
         if (user == null){
             throw new NoResourceFoundException("用户不存在");
         }
-        if (!new BCryptPasswordEncoder().matches(LoginUser.getPassword(), user.getPassword())){
+        if (!new BCryptPasswordEncoder().matches(loginUser.getPassword(), user.getPassword())){
             throw new BadCredentialsException("用户名或密码错误");
         }
         updateTime(user.getId());

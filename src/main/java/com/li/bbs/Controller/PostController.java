@@ -1,17 +1,14 @@
 package com.li.bbs.Controller;
 
-import com.li.bbs.Pojo.QueryParam;
-import com.li.bbs.Pojo.PageResult;
-import com.li.bbs.Pojo.Post;
-import com.li.bbs.Pojo.Result;
+import com.li.bbs.Pojo.*;
 
 public interface PostController {
 
     public Result<Post> add(Post newPost, String token);
 
-    public Result<PageResult<Post>> page(QueryParam queryParam);
+    public Result<PageResult<PostResponse>> page(QueryParam queryParam);
 
-    public Result<Post> findById(Integer id);
+    public Result<PostResponse> findById(Integer id);
 
     public Result<Post> update(Post post, Integer id, String token);
 

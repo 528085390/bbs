@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DataSourcePerFileMappings">
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/cfa65be5-6fae-42e2-9078-1aaaf139546f/console.sql" value="cfa65be5-6fae-42e2-9078-1aaaf139546f" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/li/bbs/Mapper/AuthMapper.java" value="cfa65be5-6fae-42e2-9078-1aaaf139546f" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/li/bbs/Mapper/AuthMapper.java" value="9e9053c3-89e2-4045-8b92-3bae5f98a6db" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/li/bbs/Mapper/CommentMapper.java" value="cfa65be5-6fae-42e2-9078-1aaaf139546f" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/li/bbs/Mapper/PostMapper.java" value="cfa65be5-6fae-42e2-9078-1aaaf139546f" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/li/bbs/Mapper/UserMapper.java" value="cfa65be5-6fae-42e2-9078-1aaaf139546f" />

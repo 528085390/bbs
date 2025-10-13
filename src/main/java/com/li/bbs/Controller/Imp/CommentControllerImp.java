@@ -1,23 +1,14 @@
 package com.li.bbs.Controller.Imp;
 
-import com.github.pagehelper.PageInfo;
 import com.li.bbs.Controller.CommentController;
-import com.li.bbs.Pojo.Comment;
-import com.li.bbs.Pojo.PageResult;
-import com.li.bbs.Pojo.QueryParam;
-import com.li.bbs.Pojo.Result;
+import com.li.bbs.Pojo.*;
 import com.li.bbs.Service.CommentService;
 import com.li.bbs.util.ValidationUtil;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RequestMapping("/comment")
@@ -55,20 +46,20 @@ public class CommentControllerImp implements CommentController {
 
     @Override
     @GetMapping("{postId}")
-    public Result<PageResult<Comment>> getComment(@PathVariable Integer postId, QueryParam queryParam) {
+    public Result<PageResult<CommentResponse>> getComment(@PathVariable Integer postId, QueryParam queryParam) {
         //参数校验
         if (postId == null || postId <= 0) {
-            throw new IllegalArgumentException("帖子Id无效...");
+            throw new IllegalArgumentException("    帖子Id无效...");
         }
-        PageResult<Comment> comments = commentService.findByPostId(postId, queryParam);
+        PageResult<CommentResponse> comments = commentService.findByPostId(postId, queryParam);
         log.info("查询评论：{}", comments);
         return Result.success(comments);
     }
 
 
     @Override
-    @DeleteMapping
-    public Result delete(@RequestParam(value = "id", required = false) Integer id) {
+    @DeleteMapping({"{id}"})
+    public Result delete(@PathVariable Integer id) {
         //参数校验
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("评论Id无效...");

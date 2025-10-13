@@ -1,24 +1,23 @@
 package com.li.bbs.Pojo;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.parameters.P;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
-
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Post {
+public class PostResponse {
     private Integer id;
     private String title;
     private String subtitle;
     private String content;
     private Integer userId;
+    private String username;
+    private String avatarUrl;
     private Integer boardId;
     private Integer viewsCount;
     private Integer commentsCount;
