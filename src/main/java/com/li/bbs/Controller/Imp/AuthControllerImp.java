@@ -33,6 +33,9 @@ public class AuthControllerImp implements AuthController {
         if(!validationUtil.isValidPassword(newUserInfo.getPassword())){
             return Result.error(Result.PARAM_ERROR,"密码不符合要求：不能为空、长度必须在6到20之间...");
         }
+        if(!validationUtil.isValidEmail(newUserInfo.getEmail())){
+            return Result.error(Result.PARAM_ERROR,"用户邮箱格式不符合要求...");
+        }
         authService.register(newUserInfo);
         log.info("用户注册成功");
         return Result.success(CREATED);

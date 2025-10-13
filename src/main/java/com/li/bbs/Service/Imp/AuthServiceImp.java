@@ -2,6 +2,7 @@ package com.li.bbs.Service.Imp;
 import com.li.bbs.Exception.NoResourceFoundException;
 import com.li.bbs.Exception.ResourceDuplicateException;
 import com.li.bbs.Mapper.AuthMapper;
+import com.li.bbs.Mapper.UserMapper;
 import com.li.bbs.Pojo.LoginRequest;
 import com.li.bbs.Pojo.User;
 import com.li.bbs.Service.AuthService;
@@ -22,11 +23,17 @@ public class AuthServiceImp implements AuthService {
     @Autowired
     private AuthMapper authMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @Transactional
     @Override
     public void register(User newUserInfo) {
         if (authMapper.findByUsername(newUserInfo.getUsername()) != null){
             throw new ResourceDuplicateException("用户名已存在");
+        }
+        if (userMapper.findByEmail(newUserInfo.getEmail()) != null){
+            throw new ResourceDuplicateException("邮箱已被注册过");
         }
         String encodedPassword = new BCryptPasswordEncoder().encode(newUserInfo.getPassword());
         newUserInfo.setPassword(encodedPassword);
