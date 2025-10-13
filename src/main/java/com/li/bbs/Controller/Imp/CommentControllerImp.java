@@ -23,8 +23,7 @@ public class CommentControllerImp implements CommentController {
     @PostMapping("{postId}")
     @Override
     public Result addComment(@PathVariable Integer postId, @RequestBody Comment comment, @RequestHeader String token) throws SQLException {
-
-
+        log.info("正在添加评论中...");
         //参数校验
         if (postId == null || postId <= 0) {
             throw new IllegalArgumentException("帖子Id无效...");
@@ -40,19 +39,23 @@ public class CommentControllerImp implements CommentController {
         }
 
         commentService.addComment(postId, comment, token);
-        log.info("添加评论：{}", comment);
+        log.info("成功添加评论：{}", comment);
         return Result.success(Result.CREATED);
     }
 
     @Override
     @GetMapping("{postId}")
-    public Result<PageResult<CommentResponse>> getComment(@PathVariable Integer postId, QueryParam queryParam) {
+    public Result<PageResult<CommentResponse>> getComment(@PathVariable Integer postId) {
+        QueryParam queryParam = new QueryParam();
+        queryParam.setPage(1);
+        queryParam.setPageSize(1000000000);
+        log.info("查询评论中...");
         //参数校验
         if (postId == null || postId <= 0) {
-            throw new IllegalArgumentException("    帖子Id无效...");
+            throw new IllegalArgumentException("查询失败 帖子Id无效...");
         }
         PageResult<CommentResponse> comments = commentService.findByPostId(postId, queryParam);
-        log.info("查询评论：{}", comments);
+        log.info("成功查询评论：{}", comments);
         return Result.success(comments);
     }
 
@@ -60,6 +63,7 @@ public class CommentControllerImp implements CommentController {
     @Override
     @DeleteMapping({"{id}"})
     public Result delete(@PathVariable Integer id) {
+        log.info("正在进行删除评论中...");
         //参数校验
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("评论Id无效...");

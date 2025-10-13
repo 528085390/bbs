@@ -22,6 +22,7 @@ public class PostControllerImp implements PostController {
     @PostMapping
     @Override
     public Result add(@RequestBody Post newPost, @RequestHeader String token) {
+        log.info("正在添加新帖子中...");
         //校验帖子参数
         if (!validationUtil.isValidPost(newPost)) {
             return Result.error(Result.PARAM_ERROR, "帖子参数不符合要求：标题、副标题或内容格式不正确");
@@ -36,6 +37,7 @@ public class PostControllerImp implements PostController {
     @GetMapping
     @Override
     public Result<PageResult<PostResponse>> page(QueryParam queryParam){
+        log.info("正在分页查询帖子中...");
         PageResult<PostResponse> pageResult = postService.page(queryParam);
         log.info("分页查询帖子：{}",queryParam);
         return Result.success(pageResult);
@@ -44,6 +46,7 @@ public class PostControllerImp implements PostController {
     @GetMapping("/{id}")
     @Override
     public Result<PostResponse> findById(@PathVariable Integer id) {
+        log.info("正在查询帖子中...");
         //校验帖子id
         if (id == null) {
             return Result.error(Result.PARAM_ERROR, "帖子id不能为空");
@@ -56,6 +59,7 @@ public class PostControllerImp implements PostController {
     @PutMapping("/{id}")
     @Override
     public Result update(@RequestBody Post post, @PathVariable Integer id,@RequestHeader String token) {
+        log.info("正在更新帖子中...");
         //校验帖子参数
         if (!validationUtil.isValidPost(post)) {
             return Result.error(Result.PARAM_ERROR, "帖子参数不符合要求：标题、副标题或内容格式不正确");
@@ -68,6 +72,7 @@ public class PostControllerImp implements PostController {
     @DeleteMapping("/{id}")
     @Override
     public Result delete(@PathVariable Integer id,@RequestHeader String token) {
+        log.info("正在删除帖子中...");
         postService.delete(id, token);
         log.info("删除帖子：{},传递令牌：{}",id, token);
         return Result.success(Result.NO_CONTENT);
