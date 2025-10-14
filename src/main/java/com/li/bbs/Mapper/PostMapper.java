@@ -33,5 +33,5 @@ public interface PostMapper {
     void addCommentsCount(Integer postId);
 
     @Select("select *from post order by views_count desc")
-    List<PostResponse> hotpageViews(QueryParam queryParam);
+    List<PostResponse> hotPageViews(QueryParam queryParam);
 }
