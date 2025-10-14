@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ApifoxUploaderProjectSetting">
     <option name="apiAccessToken" value="APS-uh0iGO9k8cYVQsGESrzdHUCAL7XTdKP9" />
-    <option name="apiApiOverwriteMode" value="覆盖所有字段" />
     <option name="apiProjectIds">
       <array>
         <option value="&lt;byte-array&gt;rO0ABXNyADZjb20uaXRhbmdjZW50LmlkZWEucGx1Z2luLmFwaS5hY2NvdW50LlByb2plY3RBbmRNb2R1bGUAAAAAAAAAAQIAFVoABmVuYWJsZUwACG1vZHVsZUlkdAASTGphdmEvbGFuZy9TdHJpbmc7TAAGb3RoZXIxcQB+AAFMAAdvdGhlcjEwcQB+AAFMAAdvdGhlcjExcQB+AAFMAAdvdGhlcjEycQB+AAFMAAZvdGhlcjJxAH4AAUwABm90aGVyM3EAfgABTAAGb3RoZXI0cQB+AAFMAAZvdGhlcjVxAH4AAUwABm90aGVyNnEAfgABTAAGb3RoZXI3cQB+AAFMAAZvdGhlcjhxAH4AAUwABm90aGVyOXEAfgABTAAKcGF0aEJlZm9yZXEAfgABTAANcHJvamVjdEZvbGRlcnEAfgABTAAPcHJvamVjdEZvbGRlcklkcQB+AAFMAAlwcm9qZWN0SWRxAH4AAUwAC3Byb2plY3ROYW1lcQB+AAFMAAxzY2hlbWFGb2xkZXJxAH4AAUwACHNjaGVtYUlkcQB+AAF4cAF0AAhiYnNfZGVtb3QABzY5NTQ1NjFwcHB0AAc2MzE4NDc0dAALYnJhbmNoLW1haW50AAzpu5jorqTmqKHlnZdwcHBwcHQAAHQACeagueebruW9lXQAATB0AAc3MjI4MTAzdAADYmJhcQB+AAlxAH4ACg==&lt;/byte-array&gt;" />

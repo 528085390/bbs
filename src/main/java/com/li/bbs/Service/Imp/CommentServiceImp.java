@@ -3,12 +3,14 @@ package com.li.bbs.Service.Imp;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.li.bbs.Mapper.CommentMapper;
+import com.li.bbs.Mapper.PostMapper;
 import com.li.bbs.Mapper.UserMapper;
 import com.li.bbs.Pojo.*;
 import com.li.bbs.Service.CommentService;
 import com.li.bbs.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -26,6 +28,9 @@ public class CommentServiceImp implements CommentService {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    PostMapper postMapper;
+
 
     @Override
     public PageResult<CommentResponse> findByPostId(Integer postId, QueryParam queryParam) {
@@ -39,6 +44,7 @@ public class CommentServiceImp implements CommentService {
         return new PageResult<>(p.getTotal(), comments);
     }
 
+    @Transactional
     @Override
     public void addComment(Integer postId, Comment comment, String token) throws SQLException {
         Integer userId = jwtUtil.extractUserId(token);
@@ -46,6 +52,7 @@ public class CommentServiceImp implements CommentService {
         comment.setPostId(postId);
         comment.setCreatedTime(LocalDateTime.now());
         Integer res = commentMapper.addComment(comment);
+        postMapper.addCommentsCount(postId);
         if (res != 1){
             throw new SQLException("添加失败");
         }
