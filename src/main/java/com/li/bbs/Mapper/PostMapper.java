@@ -28,4 +28,7 @@ public interface PostMapper {
 
     @Delete("delete from post where id=#{id}")
     public Integer delete(Integer id);
+
+    @Update("UPDATE post SET comments_count = comments_count + 1 WHERE id = #{postId}")
+    void addCommentsCount(Integer postId);
 }
