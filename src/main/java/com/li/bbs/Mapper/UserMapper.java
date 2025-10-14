@@ -49,4 +49,5 @@ public interface UserMapper {
 
     @Update("update user set password=#{password},updated_time = #{updatedTime} where id=#{id}")
     void  updatePassword(User newUserPassword);
+
 }

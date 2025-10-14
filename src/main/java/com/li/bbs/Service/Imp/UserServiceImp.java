@@ -48,12 +48,17 @@ public class UserServiceImp implements UserService {
         Integer userId = jwtUtil.extractUserId(token);
         Page<Post> p = PageHelper.startPage(queryParam.getPage(), queryParam.getPageSize());
         List<Post> allFavourites = userMapper.findAllFavourites(userId);
+
         return new PageResult<>(p.getTotal(), allFavourites);
     }
 
     @Override
     public void addFavourite(String token, Integer postId) {
         Integer userId = jwtUtil.extractUserId(token);
+        Integer isFavourite = userMapper.isFavourite(userId, postId);
+        if (isFavourite == 1){
+            throw new ResourceDuplicateException("该帖子已收藏");
+        }
         Integer res = userMapper.addFavourite(userId, postId, LocalDateTime.now());
         if (res != 1){
             throw new RuntimeException("添加失败");

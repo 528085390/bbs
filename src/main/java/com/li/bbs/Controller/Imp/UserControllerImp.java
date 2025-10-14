@@ -44,7 +44,7 @@ public class UserControllerImp implements UserController {
         log.info("获取用户收藏：{}",favourites);
         return Result.success(favourites);
     }
-    @GetMapping("/favourites/check")
+    @GetMapping("/checkFavourite")
     @Override
     public Result<Boolean> isFavourite(@RequestHeader String token,@RequestParam Integer postId) {
         log.info("正在判断用户是否收藏帖子，帖子Id：{}",postId);
