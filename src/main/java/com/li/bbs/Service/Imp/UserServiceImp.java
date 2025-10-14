@@ -11,18 +11,14 @@ import com.li.bbs.Pojo.*;
 import com.li.bbs.Service.UserService;
 import com.li.bbs.util.JwtUtil;
 import com.li.bbs.util.OssUtil;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 
 @Service
@@ -72,6 +68,12 @@ public class UserServiceImp implements UserService {
             throw new RuntimeException("删除失败");
         }
 
+    }
+    @Override
+    public boolean isFavourite(String token, Integer postId){
+         Integer userId = jwtUtil.extractUserId(token);
+         Integer count = userMapper.isFavourite(userId, postId);
+         return count !=null && count > 0;
     }
 
     @Override

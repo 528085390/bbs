@@ -25,4 +25,6 @@ public interface UserController {
     Result<String> updateUserAvatar(String token, MultipartFile file) throws ClientException;
 
     public Result updatePassword(User newUserInfo,String  token);
+
+    Result<Boolean> isFavourite(String token,Integer postId);
 }

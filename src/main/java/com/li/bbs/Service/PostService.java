@@ -19,5 +19,5 @@ public interface PostService {
      public void delete(Integer id, String token);
 
 
-
+    PageResult<PostResponse> hotpageViews(QueryParam queryParam);
 }
