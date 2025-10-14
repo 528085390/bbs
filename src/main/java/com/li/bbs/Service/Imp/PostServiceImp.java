@@ -28,7 +28,6 @@ public class PostServiceImp implements PostService {
 
     @Autowired
     UserMapper userMapper;
-
     @Override
     public void add(Post newPost, String token) {
         Integer userId = jwtUtil.extractUserId(token);
@@ -56,6 +55,19 @@ public class PostServiceImp implements PostService {
         return new PageResult<>(page.getTotal(), posts);
 
     }
+@Override
+public PageResult<PostResponse> hotpageViews(QueryParam queryParam) {
+    Page<Post> page = PageHelper.startPage(queryParam.getPage(), queryParam.getPageSize());
+    List<PostResponse> posts = postMapper.hotpageViews(queryParam);
+    for (PostResponse p : posts){
+        Integer userId = p.getUserId();
+        UserResponse user = userMapper.findById(userId);
+        p.setUsername(user.getUsername());
+        p.setAvatarUrl(user.getAvatarUrl());
+    }
+
+    return new PageResult<>(page.getTotal(), posts);
+}
 
     @Transactional
     @Override

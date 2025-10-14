@@ -43,6 +43,22 @@ public class PostControllerImp implements PostController {
         return Result.success(pageResult);
     }
 
+    //显示前10观看量帖子
+    @GetMapping("/hot")
+    @Override
+    public Result<PageResult<PostResponse>> hotpageViews(QueryParam queryParam){
+        log.info("正在分页查询点击量前十帖子中...");
+        if (queryParam != null) {
+        queryParam.setPageSize(10);     // 每页显示10条记录
+        queryParam.setPage(1); // 查询第1页
+    }
+
+        PageResult<PostResponse> pageResult = postService.hotpageViews(queryParam);
+        log.info("查询成功：{}",pageResult);
+        return Result.success(pageResult);
+    }
+
+
     @GetMapping("/{id}")
     @Override
     public Result<PostResponse> findById(@PathVariable Integer id) {
@@ -77,8 +93,4 @@ public class PostControllerImp implements PostController {
         log.info("删除帖子：{},传递令牌：{}",id, token);
         return Result.success(Result.NO_CONTENT);
     }
-
-
-
-
 }

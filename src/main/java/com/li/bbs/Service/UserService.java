@@ -4,8 +4,6 @@ import com.aliyuncs.exceptions.ClientException;
 import com.li.bbs.Pojo.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-
 public interface UserService {
 
     public UserResponse getInfo(String token);
@@ -23,4 +21,6 @@ public interface UserService {
     String updateUserAvatar(String token, MultipartFile file) throws ClientException;
 
     public void updatePassword(User newUserpassword,String token);
+
+    boolean isFavourite(String token, Integer postId);
 }

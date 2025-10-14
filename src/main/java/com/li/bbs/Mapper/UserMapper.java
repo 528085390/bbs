@@ -24,6 +24,9 @@ public interface UserMapper {
     @Delete("delete from favourite where user_id = #{userId} and post_id = #{postId}")
     Integer removeFavourite(Integer userId, Integer postId);
 
+    @Select("select * from favourite where user_id = #{userId} and post_id=#{postId}")
+    Integer isFavourite(Integer userId, Integer postId);
+
     @Select("select p.* " +
             "FROM post p " +
             "INNER JOIN favourite f " +

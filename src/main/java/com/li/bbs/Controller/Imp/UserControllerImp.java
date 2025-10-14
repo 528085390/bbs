@@ -44,6 +44,23 @@ public class UserControllerImp implements UserController {
         log.info("获取用户收藏：{}",favourites);
         return Result.success(favourites);
     }
+    @GetMapping("/favourites/check")
+    @Override
+    public Result<Boolean> isFavourite(@RequestHeader String token,@RequestParam Integer postId) {
+        log.info("正在判断用户是否收藏帖子，帖子Id：{}",postId);
+        //校验postId参数
+        if(postId==null||postId<=0){
+            throw new IllegalArgumentException("添加的收藏帖子Id无效...");
+        }
+        boolean isFavourite = userService.isFavourite(token, postId);
+        if(isFavourite){
+            log.info("用户已收藏");
+        }
+        else{
+            log.info("用户已收藏");
+        }
+        return Result.success(isFavourite);
+    }
 
     @PostMapping("/favourite")
     @Override
@@ -117,5 +134,6 @@ public class UserControllerImp implements UserController {
         log.info("用户({})修改密码({})成功",oldUsername,newUserInfo.getPassword());
         return Result.success(NO_CONTENT);
     }
+
 
 }
