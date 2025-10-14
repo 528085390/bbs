@@ -58,7 +58,7 @@ public class PostServiceImp implements PostService {
 @Override
 public PageResult<PostResponse> hotpageViews(QueryParam queryParam) {
     Page<Post> page = PageHelper.startPage(queryParam.getPage(), queryParam.getPageSize());
-    List<PostResponse> posts = postMapper.hotpageViews(queryParam);
+    List<PostResponse> posts = postMapper.hotPageViews(queryParam);
     for (PostResponse p : posts){
         Integer userId = p.getUserId();
         UserResponse user = userMapper.findById(userId);
