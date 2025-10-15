@@ -23,4 +23,6 @@ public interface UserService {
     public void updatePassword(User newUserpassword,String token);
 
     boolean isFavourite(String token, Integer postId);
+
+    boolean isMyPost(String token, Integer postId);
 }

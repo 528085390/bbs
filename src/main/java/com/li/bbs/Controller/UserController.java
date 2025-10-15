@@ -27,4 +27,6 @@ public interface UserController {
     public Result updatePassword(User newUserInfo,String  token);
 
     Result<Boolean> isFavourite(String token,Integer postId);
+
+    Result<Boolean> isMyPost(String token,Integer postId);
 }

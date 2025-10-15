@@ -82,6 +82,13 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public boolean isMyPost(String token, Integer postId) {
+        Integer userId = jwtUtil.extractUserId(token);
+        Integer count = userMapper.isMyPost(userId, postId);
+        return (count == 1);
+    }
+
+    @Override
     public PageResult<Post> getMyPosts(String token, QueryParam queryParam) {
         Integer userId = jwtUtil.extractUserId(token);
         Page<Post> p = PageHelper.startPage(queryParam.getPage(), queryParam.getPageSize());

@@ -27,6 +27,9 @@ public interface UserMapper {
     @Select("select * from favourite where user_id = #{userId} and post_id=#{postId}")
     Integer isFavourite(Integer userId, Integer postId);
 
+    @Select("select * from post where user_id = #{userId} and id = #{postId}")
+    Integer isMyPost(Integer userId, Integer postId);
+
     @Select("select p.* " +
             "FROM post p " +
             "INNER JOIN favourite f " +
