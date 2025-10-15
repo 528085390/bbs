@@ -7,8 +7,8 @@ import lombok.Data;
 public class Board {
 
 
-private Integer id;
-private String name;
+    private Integer id;
+    private String name;
 
 
 }

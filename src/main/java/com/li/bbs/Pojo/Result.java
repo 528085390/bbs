@@ -4,12 +4,11 @@ import lombok.Data;
 
 @Data
 public class Result<T> {
-    /** 响应码 */
+
     private Integer code;
-    /** 响应消息 */
     private String message;
-    /** 响应数据 */
     private T data;
+
 
     /** 成功响应码 */
     public static final Integer SUCCESS = 200;

@@ -20,6 +20,12 @@ public class CommentControllerImp implements CommentController {
     @Autowired
     ValidationUtil validationUtil;
 
+    /**
+     * 添加评论
+     * @param postId 帖子id
+     * @param comment 评论内容
+     */
+
     @PostMapping("{postId}")
     @Override
     public Result addComment(@PathVariable Integer postId, @RequestBody Comment comment, @RequestHeader String token) throws SQLException {
@@ -43,12 +49,20 @@ public class CommentControllerImp implements CommentController {
         return Result.success(Result.CREATED);
     }
 
+
+    /**
+     * 查询评论
+     * @param postId 帖子id
+     */
     @Override
     @GetMapping("{postId}")
     public Result<PageResult<CommentResponse>> getComment(@PathVariable Integer postId) {
+
+         //分页参数 评论默认不分页
         QueryParam queryParam = new QueryParam();
         queryParam.setPage(1);
         queryParam.setPageSize(1000000000);
+
         log.info("查询评论中...");
         //参数校验
         if (postId == null || postId <= 0) {
@@ -60,6 +74,10 @@ public class CommentControllerImp implements CommentController {
     }
 
 
+    /**
+     * 删除评论
+     * @param id 评论id
+     */
     @Override
     @DeleteMapping({"{id}"})
     public Result delete(@PathVariable Integer id) {

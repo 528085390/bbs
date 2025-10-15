@@ -14,11 +14,17 @@ import org.springframework.web.bind.annotation.*;
 public class PostControllerImp implements PostController {
 
     @Autowired
-    private PostService postService;
+    PostService postService;
 
     @Autowired
-    private ValidationUtil validationUtil;
+    ValidationUtil validationUtil;
 
+
+    /**
+     * 添加帖子
+     *
+     * @param newPost 帖子内容
+     */
     @PostMapping
     @Override
     public Result add(@RequestBody Post newPost, @RequestHeader String token) {
@@ -34,6 +40,11 @@ public class PostControllerImp implements PostController {
     }
 
 
+    /**
+     * 分页查询帖子
+     *
+     * @param queryParam 查询参数 默认不分页 保留功能
+     */
     @GetMapping
     @Override
     public Result<PageResult<PostResponse>> page(QueryParam queryParam) {
@@ -43,22 +54,28 @@ public class PostControllerImp implements PostController {
         return Result.success(pageResult);
     }
 
-    //显示前10观看量帖子
+
+    /**
+     * 分页查询点击量前十帖子
+     */
     @GetMapping("/hot")
     @Override
-    public Result<PageResult<PostResponse>> hotpageViews(QueryParam queryParam) {
+    public Result<PageResult<PostResponse>> hotPageViews() {
+        QueryParam queryParam = new QueryParam();
         log.info("正在分页查询点击量前十帖子中...");
-        if (queryParam != null) {
-            queryParam.setPageSize(10);
-            queryParam.setPage(1);
-        }
-
+        queryParam.setPageSize(10);
+        queryParam.setPage(1);
         PageResult<PostResponse> pageResult = postService.hotpageViews(queryParam);
         log.info("查询成功：{}", pageResult);
         return Result.success(pageResult);
     }
 
 
+    /**
+     * 根据id查询帖子
+     *
+     * @param id 帖子id
+     */
     @GetMapping("/{id}")
     @Override
     public Result<PostResponse> findById(@PathVariable Integer id) {
@@ -72,6 +89,13 @@ public class PostControllerImp implements PostController {
         return Result.success(postById);
     }
 
+
+    /**
+     * 更新帖子 未使用
+     *
+     * @param post 帖子内容
+     * @param id   帖子id
+     */
     @PutMapping("/{id}")
     @Override
     public Result update(@RequestBody Post post, @PathVariable Integer id, @RequestHeader String token) {
@@ -85,6 +109,12 @@ public class PostControllerImp implements PostController {
         return Result.success(Result.NO_CONTENT);
     }
 
+
+    /**
+     * 删除帖子
+     *
+     * @param id 帖子id
+     */
     @DeleteMapping("/{id}")
     @Override
     public Result delete(@PathVariable Integer id, @RequestHeader String token) {

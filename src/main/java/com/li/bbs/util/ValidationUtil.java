@@ -23,13 +23,10 @@ public class ValidationUtil {
     // 密码正则表达式（字母、下划线、数字，6-20位，不能包含中文）
     private final String PASSWORD_PATTERN = "^[a-zA-Z0-9_]{6,20}$";
 
-    // 手机号正则表达式
-    private final String PHONE_PATTERN = "^1[3-9]\\d{9}$";
 
     private final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
     private final Pattern usernamePattern = Pattern.compile(USERNAME_PATTERN);
     private final Pattern passwordPattern = Pattern.compile(PASSWORD_PATTERN);
-    private final Pattern phonePattern = Pattern.compile(PHONE_PATTERN);
 
     /**
      * 校验邮箱格式
@@ -58,18 +55,6 @@ public class ValidationUtil {
         return usernamePattern.matcher(username).matches();
     }
 
-    /**
-     * 校验手机号格式
-     *
-     * @param phone 手机号
-     * @return 校验结果 true:格式正确 false:格式错误
-     */
-    public boolean isValidPhone(String phone) {
-        if (!StringUtils.hasText(phone)) {
-            return false;
-        }
-        return phonePattern.matcher(phone).matches();
-    }
 
     /**
      * 校验字符串是否为空
@@ -97,25 +82,11 @@ public class ValidationUtil {
         return length >= min && length <= max;
     }
 
-    /**
-     * 校验数字是否在指定范围内
-     *
-     * @param number 待校验数字
-     * @param min    最小值
-     * @param max    最大值
-     * @return 校验结果 true:在范围内 false:不在范围内
-     */
-    public boolean isValidRange(Integer number, int min, int max) {
-        if (number == null) {
-            return false;
-        }
-        return number >= min && number <= max;
-    }
 
     //添加评论参数校验
     public boolean isValidComment(String content) {
         if (!StringUtils.hasText(content)) {
-            return false; // 评论不能为空
+            return false;
         }
         // 评论长度不能超过200字
         if (!isValidLength(content, 1, 200)) {
@@ -215,13 +186,6 @@ public class ValidationUtil {
                 && isValidPostContent(post.getContent());
     }
 
-    //校验User参数
-    public boolean isValidAvatarUrl(String avatarUrl) {
-        if (!avatarUrl.startsWith("http://") && !avatarUrl.startsWith("https://")) {
-            return false;// 头像URL格式必须以http://或https://开头
-        }
-        return true;
-    }
 
     public boolean isValidPassword(String email) {
         // 密码长度应在6-20位之间,不能有中文

@@ -1,4 +1,3 @@
-// ResultResponseAdvice.java
 package com.li.bbs.Config.Advice;
 
 import com.li.bbs.Pojo.Result;

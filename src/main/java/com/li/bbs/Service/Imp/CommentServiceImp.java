@@ -20,10 +20,10 @@ import java.util.List;
 
 public class CommentServiceImp implements CommentService {
     @Autowired
-    private CommentMapper commentMapper;
+    CommentMapper commentMapper;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    JwtUtil jwtUtil;
 
     @Autowired
     UserMapper userMapper;
@@ -36,7 +36,7 @@ public class CommentServiceImp implements CommentService {
     public PageResult<CommentResponse> findByPostId(Integer postId, QueryParam queryParam) {
         Page<CommentResponse> p = PageHelper.startPage(queryParam.getPage(), queryParam.getPageSize());
         List<CommentResponse> comments = commentMapper.findByPostId(postId);
-        for(CommentResponse c : comments){
+        for (CommentResponse c : comments) {
             UserResponse author = userMapper.findById(c.getUserId());
             c.setUsername(author.getUsername());
             c.setAvatarUrl(author.getAvatarUrl());
@@ -53,7 +53,7 @@ public class CommentServiceImp implements CommentService {
         comment.setCreatedTime(LocalDateTime.now());
         Integer res = commentMapper.addComment(comment);
         postMapper.addCommentsCount(postId);
-        if (res != 1){
+        if (res != 1) {
             throw new SQLException("添加失败");
         }
     }

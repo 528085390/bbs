@@ -14,5 +14,5 @@ public interface PostController {
 
     public Result delete(Integer id, String token);
 
-    public Result<PageResult<PostResponse>> hotpageViews(QueryParam queryParam);
+    public Result<PageResult<PostResponse>> hotPageViews();
 }

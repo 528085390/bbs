@@ -17,10 +17,11 @@ import java.time.LocalDateTime;
 @Service
 public class AuthServiceImp implements AuthService {
     @Autowired
-    private JwtUtil jwtUtil;
+    JwtUtil jwtUtil;
 
     @Autowired
-    private AuthMapper authMapper;
+    AuthMapper authMapper;
+
 
     @Transactional
     @Override
@@ -37,6 +38,8 @@ public class AuthServiceImp implements AuthService {
         newUserInfo.setUpdatedTime(LocalDateTime.now());
         authMapper.addUser(newUserInfo);
     }
+
+
 
     @Transactional
     @Override

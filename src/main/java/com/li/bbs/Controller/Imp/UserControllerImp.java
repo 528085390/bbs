@@ -25,50 +25,75 @@ public class UserControllerImp implements UserController {
     UserService userService;
 
     @Autowired
-     ValidationUtil validationUtil;
+    ValidationUtil validationUtil;
 
+
+    /**
+     * 获取用户信息
+     */
     @GetMapping("/me")
     @Override
     public Result<UserResponse> getInfo(@RequestHeader String token) {
         log.info("正在获取用户信息...");
         UserResponse userInfo = userService.getInfo(token);
-        log.info("获取用户信息：{}",userInfo);
+        log.info("获取用户信息：{}", userInfo);
         return Result.success(userInfo);
     }
 
+    /**
+     * 获取用户收藏 默认不分页
+     */
     @GetMapping("/favourites")
     @Override
-    public Result<PageResult<Post>> getFavourites(@RequestHeader String token,QueryParam queryParam) {
+    public Result<PageResult<Post>> getFavourites(@RequestHeader String token, QueryParam queryParam) {
         log.info("正在获取用户收藏...");
-        PageResult<Post> favourites = userService.getFavourites(token,queryParam);
-        log.info("获取用户收藏：{}",favourites);
+        PageResult<Post> favourites = userService.getFavourites(token, queryParam);
+        log.info("获取用户收藏：{}", favourites);
         return Result.success(favourites);
     }
+
+
+    /**
+     * 判断用户是否收藏了该帖子
+     *
+     * @param postId 帖子Id
+     */
     @GetMapping("/checkFavourite")
     @Override
-    public Result<Boolean> isFavourite(@RequestHeader String token,@RequestParam Integer postId) {
-        log.info("正在判断用户是否收藏帖子，帖子Id：{}",postId);
+    public Result<Boolean> isFavourite(@RequestHeader String token, @RequestParam Integer postId) {
+        log.info("正在判断用户是否收藏帖子，帖子Id：{}", postId);
         //校验postId参数
-        if(postId==null||postId<=0){
+        if (postId == null || postId <= 0) {
             throw new IllegalArgumentException("添加的收藏帖子Id无效...");
         }
         boolean isFavourite = userService.isFavourite(token, postId);
-        if(isFavourite){
+        if (isFavourite) {
             log.info("用户已收藏");
-        }
-        else{
-            log.info("用户已收藏");
+        } else {
+            log.info("用户未收藏");
         }
         return Result.success(isFavourite);
     }
 
+
+    /**
+     * 判断用户是否为帖子作者
+     *
+     * @param postId 帖子Id
+     */
+
     @GetMapping("/checkPost")
     @Override
-    public Result<Boolean> isMyPost(@RequestHeader String token,@RequestParam Integer postId) {
+    public Result<Boolean> isMyPost(@RequestHeader String token, @RequestParam Integer postId) {
         log.info("正在判断用户是否是该帖子的作者...");
         return Result.success(userService.isMyPost(token, postId));
     }
 
+    /**
+     * 添加收藏
+     *
+     * @param postId 帖子Id
+     */
     @PostMapping("/favourite")
     @Override
     public Result addFavourite(@RequestHeader String token, Integer postId) {
@@ -76,12 +101,18 @@ public class UserControllerImp implements UserController {
 
         userService.addFavourite(token, postId);
         //校验postId参数
-        if(postId==null||postId<=0){
+        if (postId == null || postId <= 0) {
             throw new IllegalArgumentException("添加的收藏帖子Id无效...");
         }
-        log.info("贴子：{}添加收藏成功",postId);
+        log.info("贴子：{}添加收藏成功", postId);
         return Result.success(Result.CREATED);
     }
+
+    /**
+     * 删除收藏
+     *
+     * @param postId 帖子Id
+     */
 
     @DeleteMapping("/favourite")
     @Override
@@ -96,53 +127,76 @@ public class UserControllerImp implements UserController {
         return Result.success(Result.NO_CONTENT);
     }
 
+
+    /**
+     * 获取用户发的帖子 默认不分页
+     */
+
     @GetMapping("/posts")
     @Override
-    public Result<PageResult<Post>> getMyPosts(@RequestHeader String token,QueryParam queryParam) {
+    public Result<PageResult<Post>> getMyPosts(@RequestHeader String token, QueryParam queryParam) {
         log.info("正在获取用户帖子...");
         PageResult<Post> myPosts = userService.getMyPosts(token, queryParam);
-        log.info("获取用户帖子：{}",myPosts);
+        log.info("获取用户帖子：{}", myPosts);
         return Result.success(myPosts);
 
     }
 
+    /**
+     * 更新用户信息
+     *
+     * @param user 用户信息
+     */
+
     @PostMapping("/updateInfo")
     @Override
-    public Result updateUserInfo(@RequestHeader String token,@RequestBody User user) {
+    public Result updateUserInfo(@RequestHeader String token, @RequestBody User user) {
         log.info("正在更新用户信息...");
-        if(!validationUtil.isValidEmail(user.getEmail())){
-            return Result.error(Result.PARAM_ERROR,"用户邮箱格式不符合要求...");
+        if (!validationUtil.isValidEmail(user.getEmail())) {
+            return Result.error(Result.PARAM_ERROR, "用户邮箱格式不符合要求...");
         }
-        if (!validationUtil.isValidUsername(user.getUsername())){
-            return Result.error(Result.PARAM_ERROR,"用户名格式不符合要求...");
+        if (!validationUtil.isValidUsername(user.getUsername())) {
+            return Result.error(Result.PARAM_ERROR, "用户名格式不符合要求...");
         }
         userService.updateUserInfo(token, user);
-
         log.info("更新用户信息成功：{}", user);
         return Result.success(Result.NO_CONTENT);
     }
+
+    /**
+     * 更新用户头像
+     *
+     * @param file 头像文件
+     */
 
     @PostMapping("/updateAvatar")
     @Override
     public Result<String> updateUserAvatar(@RequestHeader String token, MultipartFile file) throws ClientException {
         log.info("正在更新用户头像...");
         String url = userService.updateUserAvatar(token, file);
-        log.info("更新用户头像成功：{}",url);
+        log.info("更新用户头像成功：{}", url);
         return Result.success(url);
     }
 
+
+    /**
+     * 修改密码
+     *
+     * @param newUserInfo 新用户信息
+     */
+
     @PostMapping("/updatePassword")
     @Override
-    public Result updatePassword(@RequestBody User newUserInfo,@RequestHeader String token) {
+    public Result updatePassword(@RequestBody User newUserInfo, @RequestHeader String token) {
         log.info("正在修改密码...");
-        if(!validationUtil.isValidEmail(newUserInfo.getEmail())){
-            return Result.error(Result.PARAM_ERROR,"用户邮箱格式不符合要求...");
+        if (!validationUtil.isValidEmail(newUserInfo.getEmail())) {
+            return Result.error(Result.PARAM_ERROR, "用户邮箱格式不符合要求...");
         }
         UserResponse oldUserInfo = userService.getInfo(token);
-        String oldUsername=oldUserInfo.getUsername();
+        String oldUsername = oldUserInfo.getUsername();
 
         userService.updatePassword(newUserInfo, token);
-        log.info("用户({})修改密码({})成功",oldUsername,newUserInfo.getPassword());
+        log.info("用户({})修改密码({})成功", oldUsername, newUserInfo.getPassword());
         return Result.success(NO_CONTENT);
     }
 

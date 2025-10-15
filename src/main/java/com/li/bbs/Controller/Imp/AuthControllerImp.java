@@ -24,6 +24,11 @@ public class AuthControllerImp implements AuthController {
     @Autowired
     ValidationUtil validationUtil;
 
+
+    /**
+     * 用户注册
+     * @param newUserInfo 用户注册信息
+     */
     @PostMapping("/register")
     @Override
     public Result register(@RequestBody User newUserInfo) {
@@ -41,6 +46,10 @@ public class AuthControllerImp implements AuthController {
         log.info("用户({})注册成功",newUserInfo.getUsername());
         return Result.success(CREATED);
     }
+    /**
+     * 用户登录
+     * @param user 用户登录信息
+     */
 
     @PostMapping("/login")
     @Override
@@ -56,6 +65,11 @@ public class AuthControllerImp implements AuthController {
         log.info("用户({})登录成功",user.getUsername());
         return Result.success(token);
     }
+
+
+    /**
+     * 用户登出
+     */
 
     @PostMapping("/logout")
     @Override

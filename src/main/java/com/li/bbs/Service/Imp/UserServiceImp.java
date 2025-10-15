@@ -37,7 +37,7 @@ public class UserServiceImp implements UserService {
     public UserResponse getInfo(String token) {
         Integer userId = jwtUtil.extractUserId(token);
         UserResponse userInfo = userMapper.findById(userId);
-        if (userInfo == null){
+        if (userInfo == null) {
             throw new NoResourceFoundException("用户不存在");
         }
         return userInfo;
@@ -56,11 +56,11 @@ public class UserServiceImp implements UserService {
     public void addFavourite(String token, Integer postId) {
         Integer userId = jwtUtil.extractUserId(token);
         Integer isFavourite = userMapper.isFavourite(userId, postId);
-        if (isFavourite == null){
+        if (isFavourite == null) {
             userMapper.addFavourite(userId, postId, LocalDateTime.now());
             return;
         }
-        if (isFavourite > 0){
+        if (isFavourite > 0) {
             throw new ResourceDuplicateException("该帖子已收藏");
         }
     }
@@ -69,23 +69,24 @@ public class UserServiceImp implements UserService {
     public void removeFavourite(String token, Integer postId) {
         Integer userId = jwtUtil.extractUserId(token);
         Integer res = userMapper.removeFavourite(userId, postId);
-        if (res != 1){
+        if (res != 1) {
             throw new RuntimeException("删除失败");
         }
 
     }
+
     @Override
-    public boolean isFavourite(String token, Integer postId){
-         Integer userId = jwtUtil.extractUserId(token);
-         Integer count = userMapper.isFavourite(userId, postId);
-         return count !=null && count > 0;
+    public boolean isFavourite(String token, Integer postId) {
+        Integer userId = jwtUtil.extractUserId(token);
+        Integer count = userMapper.isFavourite(userId, postId);
+        return count != null && count > 0;
     }
 
     @Override
     public boolean isMyPost(String token, Integer postId) {
         Integer userId = jwtUtil.extractUserId(token);
         Integer count = userMapper.isMyPost(userId, postId);
-        return count !=null && count > 0;
+        return count != null && count > 0;
     }
 
     @Override
@@ -102,35 +103,35 @@ public class UserServiceImp implements UserService {
     public void updateUserInfo(String token, User user) {
         Integer userId = jwtUtil.extractUserId(token);
         UserResponse oldUser = userMapper.findById(userId);
-        if (!oldUser.getEmail().equals(user.getEmail()) && userMapper.findByEmail(user.getEmail()) != null){
+        if (!oldUser.getEmail().equals(user.getEmail()) && userMapper.findByEmail(user.getEmail()) != null) {
             throw new ResourceDuplicateException("邮箱已存在");
         }
-        if (!oldUser.getUsername().equals(user.getUsername()) && userMapper.findByUsername(user.getUsername()) != null){
+        if (!oldUser.getUsername().equals(user.getUsername()) && userMapper.findByUsername(user.getUsername()) != null) {
             throw new ResourceDuplicateException("用户名已存在");
         }
         user.setUpdatedTime(LocalDateTime.now());
         user.setId(userId);
-       userMapper.updateUserInfo(user);
+        userMapper.updateUserInfo(user);
     }
 
     @Override
     public String updateUserAvatar(String token, MultipartFile file) throws ClientException {
         String avatarUrl = ossUtil.uploadFile(file);
         Integer res = userMapper.updateUserAvatar(jwtUtil.extractUserId(token), avatarUrl);
-        if (res != 1){
+        if (res != 1) {
             throw new RuntimeException("更新头像失败");
         }
         return avatarUrl;
     }
 
     @Override
-    public void updatePassword(User newUserPassword,String token){
-        User existingUserEmail=userMapper.findByEmail(newUserPassword.getEmail());
+    public void updatePassword(User newUserPassword, String token) {
+        User existingUserEmail = userMapper.findByEmail(newUserPassword.getEmail());
         Integer userId = jwtUtil.extractUserId(token);
-        if (existingUserEmail==null){
+        if (existingUserEmail == null) {
             throw new NoResourceFoundException("用户邮箱错误");
         }
-        if (!userId.equals(existingUserEmail.getId())){
+        if (!userId.equals(existingUserEmail.getId())) {
             throw new BadCredentialsException("用户权限错误");
         }
         String oldPassword = existingUserEmail.getPassword();
@@ -138,7 +139,7 @@ public class UserServiceImp implements UserService {
         newUserPassword.setId(userId);
         newUserPassword.setPassword(encodedPassword);
         newUserPassword.setUpdatedTime(LocalDateTime.now());
-        if(new BCryptPasswordEncoder().matches(oldPassword,encodedPassword)){
+        if (new BCryptPasswordEncoder().matches(oldPassword, encodedPassword)) {
             throw new RuntimeException("新密码不能与旧密码相同");
         }
         userMapper.updatePassword(newUserPassword);

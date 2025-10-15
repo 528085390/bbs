@@ -21,13 +21,14 @@ import java.util.List;
 public class PostServiceImp implements PostService {
 
     @Autowired
-    private JwtUtil jwtUtil;
+    JwtUtil jwtUtil;
 
     @Autowired
-    private PostMapper postMapper;
+    PostMapper postMapper;
 
     @Autowired
     UserMapper userMapper;
+
     @Override
     public void add(Post newPost, String token) {
         Integer userId = jwtUtil.extractUserId(token);
@@ -44,7 +45,7 @@ public class PostServiceImp implements PostService {
     public PageResult<PostResponse> page(QueryParam queryParam) {
         Page<Post> page = PageHelper.startPage(queryParam.getPage(), queryParam.getPageSize());
         List<PostResponse> posts = postMapper.list(queryParam);
-        for (PostResponse p : posts){
+        for (PostResponse p : posts) {
             Integer userId = p.getUserId();
             UserResponse user = userMapper.findById(userId);
             p.setUsername(user.getUsername());
@@ -55,25 +56,26 @@ public class PostServiceImp implements PostService {
         return new PageResult<>(page.getTotal(), posts);
 
     }
-@Override
-public PageResult<PostResponse> hotpageViews(QueryParam queryParam) {
-    Page<Post> page = PageHelper.startPage(queryParam.getPage(), queryParam.getPageSize());
-    List<PostResponse> posts = postMapper.hotPageViews(queryParam);
-    for (PostResponse p : posts){
-        Integer userId = p.getUserId();
-        UserResponse user = userMapper.findById(userId);
-        p.setUsername(user.getUsername());
-        p.setAvatarUrl(user.getAvatarUrl());
-    }
 
-    return new PageResult<>(page.getTotal(), posts);
-}
+    @Override
+    public PageResult<PostResponse> hotpageViews(QueryParam queryParam) {
+        Page<Post> page = PageHelper.startPage(queryParam.getPage(), queryParam.getPageSize());
+        List<PostResponse> posts = postMapper.hotPageViews(queryParam);
+        for (PostResponse p : posts) {
+            Integer userId = p.getUserId();
+            UserResponse user = userMapper.findById(userId);
+            p.setUsername(user.getUsername());
+            p.setAvatarUrl(user.getAvatarUrl());
+        }
+
+        return new PageResult<>(page.getTotal(), posts);
+    }
 
     @Transactional
     @Override
     public PostResponse findById(Integer id) {
         PostResponse post = postMapper.findById(id);
-        if (post == null){
+        if (post == null) {
             throw new NoResourceFoundException("没有此帖子");
         }
         UserResponse author = userMapper.findById(post.getUserId());
@@ -96,7 +98,7 @@ public PageResult<PostResponse> hotpageViews(QueryParam queryParam) {
 
     @Transactional
     @Override
-    public void delete(Integer id,String token) {
+    public void delete(Integer id, String token) {
         Integer userId = jwtUtil.extractUserId(token);
         if (!postMapper.findById(id).getUserId().equals(userId)) {
             throw new RuntimeException("没有权限");
