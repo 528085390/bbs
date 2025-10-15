@@ -56,12 +56,12 @@ public class UserServiceImp implements UserService {
     public void addFavourite(String token, Integer postId) {
         Integer userId = jwtUtil.extractUserId(token);
         Integer isFavourite = userMapper.isFavourite(userId, postId);
-        if (isFavourite == 1){
-            throw new ResourceDuplicateException("该帖子已收藏");
+        if (isFavourite == null){
+            userMapper.addFavourite(userId, postId, LocalDateTime.now());
+            return;
         }
-        Integer res = userMapper.addFavourite(userId, postId, LocalDateTime.now());
-        if (res != 1){
-            throw new RuntimeException("添加失败");
+        if (isFavourite > 0){
+            throw new ResourceDuplicateException("该帖子已收藏");
         }
     }
 

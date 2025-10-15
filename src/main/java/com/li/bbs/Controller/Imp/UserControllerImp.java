@@ -73,6 +73,7 @@ public class UserControllerImp implements UserController {
     @Override
     public Result addFavourite(@RequestHeader String token, Integer postId) {
         log.info("正在添加收藏...");
+
         userService.addFavourite(token, postId);
         //校验postId参数
         if(postId==null||postId<=0){
