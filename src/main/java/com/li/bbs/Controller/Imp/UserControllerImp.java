@@ -105,6 +105,9 @@ public class UserControllerImp implements UserController {
         if(!validationUtil.isValidEmail(user.getEmail())){
             return Result.error(Result.PARAM_ERROR,"用户邮箱格式不符合要求...");
         }
+        if (!validationUtil.isValidUsername(user.getUsername())){
+            return Result.error(Result.PARAM_ERROR,"用户名格式不符合要求...");
+        }
         userService.updateUserInfo(token, user);
 
         log.info("更新用户信息成功：{}", user);

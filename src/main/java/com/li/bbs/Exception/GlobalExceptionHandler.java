@@ -85,7 +85,7 @@ public class GlobalExceptionHandler {
         return Result.error(Result.UNAUTHORIZED, "无权访问: " + e.getMessage());
     }
 
-     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     public Result<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         StringBuilder errorMsg = new StringBuilder();
         ex.getBindingResult().getAllErrors().forEach((error) -> {

@@ -48,7 +48,7 @@ public class JwtUtil {
     // 从Token中提取id
     public Integer extractUserId(String token) {
         final Claims claims = extractAllClaims(token);
-        return (Integer)claims.get("userId");
+        return (Integer) claims.get("userId");
     }
 
     // 从Token中提取过期时间

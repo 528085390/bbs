@@ -93,16 +93,17 @@ public class UserServiceImp implements UserService {
 
     @Override
     public void updateUserInfo(String token, User user) {
-        if(userMapper.findByEmail(user.getEmail()) != null){
-            throw new ResourceDuplicateException("邮箱已被注册");
+        Integer userId = jwtUtil.extractUserId(token);
+        UserResponse oldUser = userMapper.findById(userId);
+        if (!oldUser.getEmail().equals(user.getEmail()) && userMapper.findByEmail(user.getEmail()) != null){
+            throw new ResourceDuplicateException("邮箱已存在");
+        }
+        if (!oldUser.getUsername().equals(user.getUsername()) && userMapper.findByUsername(user.getUsername()) != null){
+            throw new ResourceDuplicateException("用户名已存在");
         }
         user.setUpdatedTime(LocalDateTime.now());
-        Integer userId = jwtUtil.extractUserId(token);
         user.setId(userId);
-        Integer res = userMapper.updateUserInfo(user);
-        if (res != 1){
-            throw new RuntimeException("更新信息失败");
-        }
+       userMapper.updateUserInfo(user);
     }
 
     @Override

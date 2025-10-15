@@ -7,6 +7,9 @@
     <update id="updateUserInfo">
         update user
         set
+            <if test="username != null || username != ''">
+                username= #{username},
+            </if>
             <if test="email != null || email != ''">
                 email=#{email},
             </if>
