@@ -62,9 +62,9 @@ public class UserControllerImp implements UserController {
         return Result.success(isFavourite);
     }
 
-    @PostMapping("/checkPost")
+    @GetMapping("/checkPost")
     @Override
-    public Result<Boolean> isMyPost(@RequestHeader String token, Integer postId) {
+    public Result<Boolean> isMyPost(@RequestHeader String token,@RequestParam Integer postId) {
         log.info("正在判断用户是否是该帖子的作者...");
         return Result.success(userService.isMyPost(token, postId));
     }

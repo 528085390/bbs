@@ -85,7 +85,7 @@ public class UserServiceImp implements UserService {
     public boolean isMyPost(String token, Integer postId) {
         Integer userId = jwtUtil.extractUserId(token);
         Integer count = userMapper.isMyPost(userId, postId);
-        return (count == 1);
+        return count !=null && count > 0;
     }
 
     @Override
