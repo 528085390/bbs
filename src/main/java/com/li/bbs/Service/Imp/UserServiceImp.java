@@ -131,7 +131,7 @@ public class UserServiceImp implements UserService {
         if(existingUserEmail == null || existingUserUsername == null){
             throw new BadCredentialsException("用户不存在");
         }
-        if(existingUserUsername.getId().equals(existingUserEmail.getId())){
+        if(!existingUserUsername.getId().equals(existingUserEmail.getId())){
             throw new BadCredentialsException("信息不一致");
         }
 
