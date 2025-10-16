@@ -125,18 +125,20 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void updatePassword(User newUserPassword, String token) {
+    public void updatePassword(User newUserPassword) {
         User existingUserEmail = userMapper.findByEmail(newUserPassword.getEmail());
-        Integer userId = jwtUtil.extractUserId(token);
-        if (existingUserEmail == null) {
-            throw new NoResourceFoundException("用户邮箱错误");
+        User existingUserUsername = userMapper.findByUsername(newUserPassword.getUsername());
+        if(existingUserEmail == null || existingUserUsername == null){
+            throw new BadCredentialsException("用户不存在");
         }
-        if (!userId.equals(existingUserEmail.getId())) {
-            throw new BadCredentialsException("用户权限错误");
+        if(existingUserUsername.getId().equals(existingUserEmail.getId())){
+            throw new BadCredentialsException("信息不一致");
         }
+
         String oldPassword = existingUserEmail.getPassword();
         String encodedPassword = new BCryptPasswordEncoder().encode(newUserPassword.getPassword());
-        newUserPassword.setId(userId);
+
+        newUserPassword.setId(existingUserUsername.getId());
         newUserPassword.setPassword(encodedPassword);
         newUserPassword.setUpdatedTime(LocalDateTime.now());
         if (new BCryptPasswordEncoder().matches(oldPassword, encodedPassword)) {

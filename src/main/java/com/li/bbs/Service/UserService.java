@@ -20,7 +20,7 @@ public interface UserService {
 
     String updateUserAvatar(String token, MultipartFile file) throws ClientException;
 
-    public void updatePassword(User newUserpassword,String token);
+    public void updatePassword(User newUserPassword);
 
     boolean isFavourite(String token, Integer postId);
 

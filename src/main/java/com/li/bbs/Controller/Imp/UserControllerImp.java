@@ -187,16 +187,13 @@ public class UserControllerImp implements UserController {
 
     @PostMapping("/updatePassword")
     @Override
-    public Result updatePassword(@RequestBody User newUserInfo, @RequestHeader String token) {
+    public Result updatePassword(@RequestBody User newUserInfo) {
         log.info("正在修改密码...");
         if (!validationUtil.isValidEmail(newUserInfo.getEmail())) {
             return Result.error(Result.PARAM_ERROR, "用户邮箱格式不符合要求...");
         }
-        UserResponse oldUserInfo = userService.getInfo(token);
-        String oldUsername = oldUserInfo.getUsername();
-
-        userService.updatePassword(newUserInfo, token);
-        log.info("用户({})修改密码({})成功", oldUsername, newUserInfo.getPassword());
+        userService.updatePassword(newUserInfo);
+        log.info("用户({})修改密码成功", newUserInfo.getUsername());
         return Result.success(NO_CONTENT);
     }
 
